@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "portaeducacao",
+  "private_key_id": "80baf71057464032620d621fa37133917cb7a3e8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCbeLdkgPf5scfX\nJnyssgftxBb3qmXjC2LIkjNVaFIZlwBQBm8D3bA384UQoo1i3OQvuzekmg7WePYJ\np1c/EvNwrX+RGIziso9zp9wMhmtgIoWkIoARmweUOdXQrkXCvpjyM2aPvAxo6aPW\nZ0pO5eHfU7TFNL0sPAU3gVFAmz6WHjHcQo/9/3i6sjRjkjfwEpok4tzfnL3zULEN\nP4g49lHhj9TNrMZF49g9T+lXTljpPMzDFm6vNcqxOMwygviblNbz2Haiai4SUUQE\nuI2qu3DhpF1gkmgk0xSKTemo47X9R9zGixLTIXZ39dbjO5Es4FPFjQJhgHVzRqkU\neLfti6t1AgMBAAECggEABA6fn//ArTqnOHD4oO1CDxMJU6wKRogxqyVDAzjJM1NM\nxI+qDkDREhtC4dNiqZw1EjWepYQ3IkXwRV8KD8VyDyW9AxJyzUsfUdq8aFznRcpf\nYcpzawgD+UxlnpordN87EKDLNlSQE/pvaq89cd0As3RjV2XtJ9tPekSlmdj2Lxsa\npQaQmZnEXQiBGi7w8d19/L5wGrJhsISeugUB9auwAYK5Y9AVfnPv3UBrCDa3PQmH\nCKbzxlFkHsNRuIfgT6GLH2r3JrC3M7VC1RdN0uzGTazd2tE+x43S7jSmbqjPa8j+\nbKZFSxf5WwsNdU+iUCwH8vu2eQ6Du5wOzzkeUDwuMwKBgQDQergssYnhwthYxwyX\n0lA2DYL0bpr+gyYb0CH8mvaBiIHp8dYSgCeEWbj9H+kAM6hfglYQv0Sfn4Bj8zsL\n6TjhRI2Of14UJjcRQB95rHjgfLygp0rqMlU4wRFpFDh6PoHBleTQDLG9TEqxO9Rm\nniok1JCfKrfk7h+xaRonB/aWLwKBgQC+6Nxl334zv5Fci8xOdp8+Rf/82MpHP0Ry\n+S7wgdl838XbkIy3pudNRInBX1NNfhLqddFcUzpt4bhxk9cJPsLHEBRo/qU9uQDM\nvnC6xbRCLR1CeefTuJu1v1MQZdyqeP3FtCXrQx0MgpG2rJEny/+BYhPzE/ZoQ0Q6\n24gxsmrTmwKBgH5edLb6orZK8fLWLMb2P5KUHBXn2WF+w6HGRmOk1tjrkrvo0DcE\noW9zJ1OffQ+XQG8sRNj/5yvOdfef3uG4a7b4Y8nFYJRcGbMGKE4LgnWohnnnDdzp\nx4iQVupXzGgk7WgXYMvPdgllbj0CJBxTsP4ELumb7j4BLQrPx39zL0AXAoGAMCDw\nf1ZKsK0Y7mXoCdfp6X8oPAxDYpbWoM2lQcjalZqsfOACOcKACYC/4dowXBbumeE9\n+LKaxlzjbO7ChXgnDpxFKPsZmWfshbF1JgD1osFQ4RNumHev+a/UNwwXB3sdLxxt\netQenKrGJXF33rqVHX8mXF+p/TsIFnaF7VF3kQUCgYBPCtH1r+hsykHkxAtzT2mc\n1CzfQhW+az0y1xJ6PttijHqRdtEFiITbUcbciYgtEe2LR+Ov5ItOPKchdgczBS+7\nnZirZ3SpAZFKcmdf370w6PHDSnPNhwQXz2E8RhxSNleiq6ZYuFjHBkfM/ZhOhQHS\nHnE58Ex/EspSiOYZ+XlPSg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-jjl1p@portaeducacao.iam.gserviceaccount.com",
+  "client_id": "109198188406899663625",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-jjl1p%40portaeducacao.iam.gserviceaccount.com"
+}

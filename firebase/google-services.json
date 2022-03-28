@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "588246715446",
+    "firebase_url": "https://portaeducacao-default-rtdb.firebaseio.com",
+    "project_id": "portaeducacao",
+    "storage_bucket": "portaeducacao.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588246715446:android:69ee4636da20833de55c97",
+        "android_client_info": {
+          "package_name": "com.portaleducacao.portaleducacao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588246715446-bru90daqun3i3e4jtmevui02vvdkeo4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9F8MF6-svhO8EiSNUEM1VQ95NabsaeKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588246715446-bru90daqun3i3e4jtmevui02vvdkeo4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
