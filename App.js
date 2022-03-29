@@ -11,11 +11,20 @@ import { Icon } from 'react-native-elements';
 import { createDrawerNavigator, DefaultTheme, DrawerItemList, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Acesso from './components/Acesso';
 import CadastrarEscola from './components/Admin/CadastroEscola';
+import {YellowBox} from 'react-native';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+
 export default function App() {
+  
   return (
     <NavigationContainer theme={DrawerTheme}>
       <Stack.Navigator initialRouteName='Acesso' screenOptions={{ headerShown: false, }}>

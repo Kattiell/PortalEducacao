@@ -6,6 +6,7 @@ import Esqueceu_Senha from './Esqueceu_Senha';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword, auth } from '../firebase';
+import {YellowBox} from 'react-native';
 
 export default function Login(props) {
 
@@ -55,8 +56,10 @@ export default function Login(props) {
     if(secureState == true) setSecureState(false)
     else setSecureState(true);
   }
+  YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
   
   return (
+    
     <View style={styles.container}>
         
       <Image
