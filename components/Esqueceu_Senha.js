@@ -2,27 +2,24 @@ import { React, Component, useState } from 'react';
 import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {Ionicons} from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
-import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 let logo = require('./../assets/logo.png');
 
 export default function Esqueceu_Senha({ navigation }) {
     return (
-        <View style={styles.container}>          
-                <Icon
-                    containerStyle={{alignSelf:'flex-start',marginTop:50 ,marginLeft:20, }}
-                    name="arrow-back"
-                    type="material"
-                    size={40}
-                    color='#B088F7'
-                    onPress={()=>{
-                    
-                        navigation.navigate('login');
-                    }}
-                ></Icon>
+        <View style={styles.container}>
+            <Icon
+                containerStyle={{ alignSelf: 'flex-start', marginTop: 50, marginLeft: 20, }}
+                name="arrow-back"
+                type="material"
+                size={40}
+                color='#B088F7'
+                onPress={() => {
+                    navigation.navigate('login');
+                }}
+            ></Icon>
 
-            <Text style={{alignSelf: 'flex-start' ,color:'#2A3A4E', fontWeight:'bold', fontSize:30, marginLeft: 25, marginBottom: 100,paddingTop: 20,}}>Recuperar Senha</Text>
+            <Text style={{ alignSelf: 'flex-start', color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginLeft: 25, marginBottom: 100, paddingTop: 20, }}>Recuperar Senha</Text>
 
             <Image
                 source={logo}
@@ -34,13 +31,13 @@ export default function Esqueceu_Senha({ navigation }) {
                     style={styles.input}
                     placeholder='Email'
                 />
-               
+
             </View>
-            
+
             <View>
                 <TouchableOpacity
                     style={styles.botaorec}
-                    title="Show alert" onPress={showAlertEmail}>
+                    title="Show alert">
                     <Text style={styles.botaoText} >Enviar E-mail</Text>
                 </TouchableOpacity>
             </View>
@@ -71,8 +68,8 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         margin: 15,
-        borderBottomWidth:2,
-        borderBottomColor:'#E9E9E9',
+        borderBottomWidth: 2,
+        borderBottomColor: '#E9E9E9',
     },
     input: {
         width: '85%',
@@ -82,14 +79,14 @@ const styles = StyleSheet.create({
         fontSize: 18
 
     },
-    
+
     logo: {
         width: 220,
         height: 180,
-        marginBottom:50,
-        
-      },
-    botaorec:{
+        marginBottom: 50,
+
+    },
+    botaorec: {
         width: 300,
         height: 52,
         backgroundColor: '#B38DF7',

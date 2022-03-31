@@ -15,7 +15,7 @@ var serviceAccount = {
 
 var app = initializeApp(serviceAccount)
 
- 
+
 const auth = getAuth(app);
 
 module.exports = {

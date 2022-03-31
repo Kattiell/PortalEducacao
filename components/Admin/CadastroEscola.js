@@ -3,12 +3,12 @@ import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dime
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import 'react-native-gesture-handler';
 
 export default function CadastrarEscola() {
 
     const navigation = useNavigation();
-    const baseUrl = "http://10.0.2.2:3000/escola"; // URL da rota
+    const baseUrl = "http://10.0.2.2:3000/escola"; //URL rota
     const [currentNome, setCurrentNome] = useState('');
     const [currentTelefone, setCurrentTelefone] = useState('');
     const [currentEndereco, setCurrentEndereco] = useState('');

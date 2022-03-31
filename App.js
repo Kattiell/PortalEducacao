@@ -12,6 +12,7 @@ import { createDrawerNavigator, DefaultTheme, DrawerItemList, DrawerContentScrol
 import Acesso from './components/Acesso';
 import CadastrarEscola from './components/Admin/CadastroEscola';
 import {YellowBox} from 'react-native';
+//import { Picker } from 'react-native-web';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -22,6 +23,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+//Picker.ignoreWarnings(['Warning:  Picker has been extracted from react-native core and will be removed in a future release'])
 
 export default function App() {
   
@@ -39,6 +41,10 @@ export default function App() {
 
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
+
+
+
+
 
 
         {/* Rota para tela da página inicial do aplicativo*/}
