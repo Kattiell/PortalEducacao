@@ -1,6 +1,6 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
-const { getAuth, signInWithEmailAndPassword} = require('firebase/auth');
+const { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} = require('firebase/auth');
 
 var serviceAccount = {
     apiKey: "AIzaSyDyD0yoRg1BsRZj56TuoJJlcgXsJdM5K8U",
@@ -20,6 +20,6 @@ const auth = getAuth(app);
 
 module.exports = {
     auth,
-    signInWithEmailAndPassword
-
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
 }

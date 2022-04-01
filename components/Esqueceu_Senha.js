@@ -4,8 +4,25 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Icon } from 'react-native-elements';
 let logo = require('./../assets/logo.png');
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+
 
 export default function Esqueceu_Senha({ navigation }) {
+    const [emailState, setemailState] = useState('');
+    const auth = getAuth();    
+    sendPasswordResetEmail(auth,  emailState)
+        .then(() => {
+            alert('Verifique sua caixa de e-mail.');
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+        });
+        function valueEmail(valueEmail){
+            setemailState(valueEmail)
+          }
+
     return (
         <View style={styles.container}>
             <Icon
@@ -29,7 +46,8 @@ export default function Esqueceu_Senha({ navigation }) {
             <View style={styles.inputArea}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Email'
+                    placeholder='Email'     
+                    onChangeText={(value) => {valueEmail(value)}}             
                 />
 
             </View>
@@ -37,7 +55,10 @@ export default function Esqueceu_Senha({ navigation }) {
             <View>
                 <TouchableOpacity
                     style={styles.botaorec}
-                    title="Show alert">
+                    title="Show alert"
+                    
+                    >
+                        
                     <Text style={styles.botaoText} >Enviar E-mail</Text>
                 </TouchableOpacity>
             </View>

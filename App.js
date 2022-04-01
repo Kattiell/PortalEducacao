@@ -23,6 +23,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+
 //Picker.ignoreWarnings(['Warning:  Picker has been extracted from react-native core and will be removed in a future release'])
 
 export default function App() {

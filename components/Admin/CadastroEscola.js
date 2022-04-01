@@ -8,7 +8,16 @@ import 'react-native-gesture-handler';
 export default function CadastrarEscola() {
 
     const navigation = useNavigation();
-    const baseUrl = "http://10.0.2.2:3000/escola"; //URL rota
+    
+    var baseUrl = "http://10.0.2.2:3000/escola";    //URL rota
+    axios.get("http://10.0.2.2:3000")
+    .then(()=>baseUrl = "http://10.0.2.2:3000/escola")
+    .catch(() => {
+        axios.get("http://192.168.100.22:3000")
+        .then(()=> baseUrl="http://192.168.100.22:3000/escola")
+    })
+  
+ 
     const [currentNome, setCurrentNome] = useState('');
     const [currentTelefone, setCurrentTelefone] = useState('');
     const [currentEndereco, setCurrentEndereco] = useState('');
