@@ -20,12 +20,12 @@ export default function Acesso(props){
             </Text>
 
             <RedirectButton 
-                destiny="login"
+                destiny="loginaluno"
                 text="Acessar como Aluno"
             ></RedirectButton>
 
             <RedirectButton 
-                destiny="login"
+                destiny="loginprof"
                 text="Acessar como Professor"
             ></RedirectButton>
 

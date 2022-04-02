@@ -12,9 +12,14 @@ import { createDrawerNavigator, DefaultTheme, DrawerItemList, DrawerContentScrol
 import Acesso from './components/Acesso';
 import CadastrarEscola from './components/Admin/CadastroEscola';
 import {YellowBox} from 'react-native';
+import LoginAluno from './components/LoginAluno';
+import { LogBox } from 'react-native';
+import AlunoScreen from './components/Aluno';
+import LoginProf from './components/LoginProf';
+import ProfScreen from './components/Professor';
 //import { Picker } from 'react-native-web';
 
-import { LogBox } from 'react-native';
+
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
@@ -43,7 +48,17 @@ export default function App() {
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
 
+        <Stack.Screen name="loginaluno">
+          {(props) => <LoginAluno {...props} logo={require('./assets/logo.png')} />}
+        </Stack.Screen>
 
+        <Stack.Screen name="AlunoScreen" component={AlunoScreen} />
+
+        <Stack.Screen name="loginprof">
+          {(props) => <LoginProf {...props} logo={require('./assets/logo.png')} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="profscreen" component={ProfScreen} />
 
 
 
@@ -90,7 +105,7 @@ function DrawerList(props, { navigation }) {
   );
 }
 
-{/* Tema do drawer */ }
+/* Tema do drawer */ 
 const DrawerTheme = {
   ...DefaultTheme,
   colors: {

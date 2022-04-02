@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Icon } from 'react-native-elements';
 let logo = require('./../assets/logo.png');
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-
+import AlunoScreen from './Aluno/index';
 
 export default function Esqueceu_Senha({ navigation }) {
     const [emailState, setemailState] = useState('');
@@ -55,10 +55,8 @@ export default function Esqueceu_Senha({ navigation }) {
             <View>
                 <TouchableOpacity
                     style={styles.botaorec}
-                    title="Show alert"
-                    
-                    >
-                        
+                    title="Show alert"                  
+                    >                      
                     <Text style={styles.botaoText} >Enviar E-mail</Text>
                 </TouchableOpacity>
             </View>

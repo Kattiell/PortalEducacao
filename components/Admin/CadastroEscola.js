@@ -10,11 +10,11 @@ export default function CadastrarEscola() {
     const navigation = useNavigation();
     
     var baseUrl = "http://10.0.2.2:3000/escola";    //URL rota
-    axios.get("http://10.0.2.2:3000")
+    axios.post("http://10.0.2.2:3000")
     .then(()=>baseUrl = "http://10.0.2.2:3000/escola")
     .catch(() => {
-        axios.get("http://192.168.100.22:3000")
-        .then(()=> baseUrl="http://192.168.100.22:3000/escola")
+        axios.post("192.168.100.22:3000")
+        .then(()=> baseUrl="192.168.100.22:3000/escola")
     })
   
  
@@ -51,6 +51,7 @@ export default function CadastrarEscola() {
                 setCurrentNome('');
                 setCurrentTelefone('');
                 setSelectedValue('Ensino Fundamental')
+              
                 // // //
                 console.log(response.data);
             })
