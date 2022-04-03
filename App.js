@@ -17,8 +17,6 @@ import { LogBox } from 'react-native';
 import AlunoScreen from './components/Aluno';
 import LoginProf from './components/LoginProf';
 import ProfScreen from './components/Professor';
-//import { Picker } from 'react-native-web';
-
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -29,7 +27,6 @@ const Stack = createNativeStackNavigator();
 
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
-//Picker.ignoreWarnings(['Warning:  Picker has been extracted from react-native core and will be removed in a future release'])
 
 export default function App() {
   

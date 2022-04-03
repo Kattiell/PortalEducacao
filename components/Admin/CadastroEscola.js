@@ -8,16 +8,7 @@ import 'react-native-gesture-handler';
 export default function CadastrarEscola() {
 
     const navigation = useNavigation();
-    
-    var baseUrl = "http://10.0.2.2:3000/escola";    //URL rota
-    axios.post("http://10.0.2.2:3000")
-    .then(()=>baseUrl = "http://10.0.2.2:3000/escola")
-    .catch(() => {
-        axios.post("192.168.100.22:3000")
-        .then(()=> baseUrl="192.168.100.22:3000/escola")
-    })
-  
- 
+    const baseUrl = "http://192.168.100.22:3000/escola";
     const [currentNome, setCurrentNome] = useState('');
     const [currentTelefone, setCurrentTelefone] = useState('');
     const [currentEndereco, setCurrentEndereco] = useState('');
@@ -35,10 +26,10 @@ export default function CadastrarEscola() {
             ],
         );
 
-    const postEscolaData = () => {
+    const postEscolaData = async () => {
 
         // Envia requisição POST
-        const response = axios.post(baseUrl, {
+        await axios.post(baseUrl, {
             endereco: currentEndereco,
             ensinotrabalhado: selectedValue,
             nome: currentNome,
@@ -55,8 +46,8 @@ export default function CadastrarEscola() {
                 // // //
                 console.log(response.data);
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function (e) {
+                console.log(e)
             });
 
     }
