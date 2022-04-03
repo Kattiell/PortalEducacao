@@ -25,7 +25,17 @@ export default function CadastrarEscola() {
                 },
             ],
         );
-
+    const showAlertErro = () =>
+        Alert.alert(    
+            "Ocorreu um Erro!",
+            "Erro com os Dados",
+            [
+                {
+                    text: "Fechar",
+                    style: "Fechar",
+                },
+            ],
+        );
     const postEscolaData = async () => {
 
         // Envia requisição POST
@@ -42,12 +52,13 @@ export default function CadastrarEscola() {
                 setCurrentNome('');
                 setCurrentTelefone('');
                 setSelectedValue('Ensino Fundamental')
-              
+
                 // // //
                 console.log(response.data);
             })
-            .catch(function (e) {
-                console.log(e)
+            .catch(function (error) {
+                showAlertErro()
+                console.log(error)
             });
 
     }

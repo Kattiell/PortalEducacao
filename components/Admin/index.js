@@ -38,14 +38,14 @@ export default function AdminScreen(){
                 <Text style={styles.title}>Professores</Text>
 
                 <View  style={styles.containerFunctions}>
-                    <BoxFunction onPress={()=>{}} nameIcon="app-registration" functionBox="Cadastro Professores"/>
+                <BoxFunction onPress= "Cadastrar Professor" nameIcon="app-registration" functionBox="Cadastro Professores"/>
                     <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horário"/>
                 </View>
 
                 <Text style={styles.title}>Alunos</Text>
 
                 <View  style={styles.containerFunctions}>
-                    <BoxFunction onPress={()=>{}} nameIcon="contacts" functionBox="Cadastro Alunos"/>
+                <BoxFunction onPress="Cadastrar Aluno" nameIcon="contacts" functionBox="Cadastro Alunos"/>
                     <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horário"/>
                 </View>
        </ScrollView>

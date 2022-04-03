@@ -1,17 +1,17 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { Alert, Image, } from 'react-native';
 import Login from './components/Login';
 import Esqueceu_Senha from './components/Esqueceu_Senha';
 import { NavigationContainer, useNavigation, } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AdminScreen from './components/Admin';
-import { Icon } from 'react-native-elements';
 import { createDrawerNavigator, DefaultTheme, DrawerItemList, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Acesso from './components/Acesso';
 import CadastrarEscola from './components/Admin/CadastroEscola';
-import {YellowBox} from 'react-native';
+import CadastroProfessor from './components/Admin/CadastroProfessor';
+import CadastroAluno from './components/Admin/CadastroAluno';
+import { YellowBox } from 'react-native';
 import LoginAluno from './components/LoginAluno';
 import { LogBox } from 'react-native';
 import AlunoScreen from './components/Aluno';
@@ -29,7 +29,7 @@ YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-
 
 
 export default function App() {
-  
+
   return (
     <NavigationContainer theme={DrawerTheme}>
       <Stack.Navigator initialRouteName='Acesso' screenOptions={{ headerShown: false, }}>
@@ -49,7 +49,7 @@ export default function App() {
           {(props) => <LoginAluno {...props} logo={require('./assets/logo.png')} />}
         </Stack.Screen>
 
-        <Stack.Screen name="AlunoScreen" component={AlunoScreen} />
+        <Stack.Screen name="AlunoScreen" component={DrawerRoutesAluno} />
 
         <Stack.Screen name="loginprof">
           {(props) => <LoginProf {...props} logo={require('./assets/logo.png')} />}
@@ -73,20 +73,35 @@ export default function App() {
 {/* Rotas de telas com drawer */ }
 function DrawerRoutes({ navigation }) {
 
-
   return (
     <Drawer.Navigator initialRouteName='Menu Administrador' drawerContent={(props) => <DrawerList {...props} />}>
-
-
       {/* Rota para tela inicial do administrador (Com Drawer)*/}
       <Drawer.Screen name="Menu Administrador" component={AdminScreen} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de uma escola (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Escola" component={CadastrarEscola} options={{ headerTitle: '' }} />
-
+      {/* Rota para tela de cadastro de uma professor (Com Drawer)*/}
+      <Drawer.Screen name="Cadastrar Professor" component={CadastroProfessor} options={{ headerTitle: '' }} />
+      {/* Rota para tela de cadastro de uma aluno (Com Drawer)*/}
+      <Drawer.Screen name="Cadastrar Aluno" component={CadastroAluno} options={{ headerTitle: '' }} />
 
     </Drawer.Navigator>
+
   );
 }
+
+function DrawerRoutesAluno({navigation}){
+  return(
+      <Drawer.Navigator  initialRouteName="Menu Aluno" drawerContent={(props) => <DrawerList {...props} />} >
+
+         {/* Rota das funções do login aluno (Com Drawer)*/}
+         <Drawer.Screen name="AlunoScreen"  component={AlunoScreen}   options={{ headerTitle: '' }}  />
+
+
+      </Drawer.Navigator>
+         
+  )
+}
+
 
 {/* Botões customizados no Drawer */ }
 function DrawerList(props, { navigation }) {
@@ -102,7 +117,13 @@ function DrawerList(props, { navigation }) {
   );
 }
 
-/* Tema do drawer */ 
+
+//DrawerALuno
+//DrawerProf
+
+
+
+/* Tema do drawer */
 const DrawerTheme = {
   ...DefaultTheme,
   colors: {

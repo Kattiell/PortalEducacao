@@ -93,7 +93,6 @@ export default function Login(props) {
               size={28}
               color='#D1D6DB'
               onPress={() => changeIcon(typeIcon)}  
-
               >
             </Icon>
           </View> 
