@@ -5,16 +5,20 @@ import { Icon } from 'react-native-elements';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 
+import ipv4 from 'PortalEducacaoBack/ipv4.json'; //Acessar IP back-End
+
 export default function CadastrarEscola() {
 
+    const ipAddress = ipv4.ip; //puxando IP function
     const navigation = useNavigation();
-    const baseUrl = "http://192.168.100.22:3000/escola";
-    const [currentNome, setCurrentNome] = useState('');
-    const [currentTelefone, setCurrentTelefone] = useState('');
-    const [currentEndereco, setCurrentEndereco] = useState('');
-    const [selectedValue, setSelectedValue] = useState("Ensino Fundamental");
+    const baseUrl = "http://"+ipAddress+":3000/escola"; //Retorno da constante
 
-    const showAlert = () =>
+    const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
+    const [currentTelefone, setCurrentTelefone] = useState('');//Criar validação de campo vazio 
+    const [currentEndereco, setCurrentEndereco] = useState('');//Criar validação de campo vazio 
+    const [selectedValue, setSelectedValue] = useState("Ensino Fundamental");//Criar validação de campo vazio 
+
+    const showAlert = () => 
         Alert.alert(
             "Sucesso!",
             "Escola Cadastrada com Sucesso",
@@ -36,8 +40,8 @@ export default function CadastrarEscola() {
                 },
             ],
         );
+ 
     const postEscolaData = async () => {
-
         // Envia requisição POST
         await axios.post(baseUrl, {
             endereco: currentEndereco,

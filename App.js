@@ -18,6 +18,8 @@ import AlunoScreen from './components/Aluno';
 import LoginProf from './components/LoginProf';
 import ProfScreen from './components/Professor';
 
+import CriarAtividade from './components/Professor/CriarAtividade';
+
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
@@ -55,9 +57,9 @@ export default function App() {
           {(props) => <LoginProf {...props} logo={require('./assets/logo.png')} />}
         </Stack.Screen>
 
-        <Stack.Screen name="profscreen" component={ProfScreen} />
+        <Stack.Screen name="profscreen" component={DrawerRoutesProfessor} />
 
-
+        <Stack.Screen name="CriarAtividade" component={DrawerRoutesProfessor}/>
 
 
         {/* Rota para tela da página inicial do aplicativo*/}
@@ -94,8 +96,22 @@ function DrawerRoutesAluno({navigation}){
       <Drawer.Navigator  initialRouteName="Menu Aluno" drawerContent={(props) => <DrawerList {...props} />} >
 
          {/* Rota das funções do login aluno (Com Drawer)*/}
-         <Drawer.Screen name="AlunoScreen"  component={AlunoScreen}   options={{ headerTitle: '' }}  />
+         <Drawer.Screen name="Menu Aluno"  component={AlunoScreen}   options={{ headerTitle: '' }}  />
 
+
+      </Drawer.Navigator>
+         
+  )
+}
+
+function DrawerRoutesProfessor({navigation}){
+  return(
+      <Drawer.Navigator  initialRouteName="Menu Professor" drawerContent={(props) => <DrawerList {...props} />} >
+
+         {/* Rota das funções do login aluno (Com Drawer)*/}
+         <Drawer.Screen name="Menu Professor"  component={ProfScreen}   options={{ headerTitle: '' }}  />
+
+         <Drawer.Screen name="CriarAtividade"  component={CriarAtividade}   options={{ headerTitle: '' }}  />
 
       </Drawer.Navigator>
          

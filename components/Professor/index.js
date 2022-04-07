@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import CriarAtividade from './CriarAtividade';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -22,7 +23,7 @@ export default function ProfScreen(){
                     size={40}
                     color='#B088F7'
                     onPress={()=>{
-                        navigation.navigate('login');
+                        navigation.navigate('loginprof');
                     }}
                 ></Icon>
 
@@ -31,9 +32,9 @@ export default function ProfScreen(){
                 <Text style={styles.title}>Menu do Professor</Text>
 
                 <View style={styles.containerFunctions}>
-                    <BoxFunction onPress="Criar Atividades" nameIcon="book" functionBox="Criar Atividades"/>
+                    <BoxFunction onPress="CriarAtividade" nameIcon="book" functionBox="Criar Atividade"/>
                     <BoxFunction onPress={()=>{}} nameIcon="folder" functionBox="Postar Material"/>
-                    <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horário de"/>
+                    <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horários"/>
                     <BoxFunction onPress={()=>{}} nameIcon="contacts" functionBox="Fórum de Duvidas"/>
                 </View>          
        </ScrollView>
