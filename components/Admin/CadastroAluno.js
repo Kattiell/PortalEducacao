@@ -5,11 +5,12 @@ import { Icon } from 'react-native-elements';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
+import ipv4 from 'PortalEducacaoBack/ipv4.json';
 
 export default function CadastroAluno() {
 
     const navigation = useNavigation();
-    const baseUrl = "http://192.168.100.22:3000/aluno";
+    const baseUrl = "http://"+ipv4.ip+":3000/aluno";
     const [currentNome, setCurrentNome] = useState('');
     const [currentCPF, setCurrentCPF] = useState('');
     const [currentRG, setCurrentRG] = useState('');
@@ -51,7 +52,6 @@ export default function CadastroAluno() {
                 setCurrentRG('');
                 setCurrentOrgaoEmissor('');
                 setCurrentNascimento('');
-
                 console.log(response.data);
             })
             .catch(function (e) {
@@ -63,6 +63,18 @@ export default function CadastroAluno() {
     return (
 
         <ScrollView>
+
+               <Icon
+                containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
+                name="arrow-back"
+                type="material"
+                size={40}
+                color='#B088F7'
+                onPress={() => {
+                    navigation.navigate('Menu Administrador');
+                }}
+            ></Icon>
+
             <View style={styles.container}>
             <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20, marginLeft: 30 }}>Cadastrar Aluno</Text>
 
@@ -179,15 +191,7 @@ export default function CadastroAluno() {
     )
 }
 
-function UserDrawer() {
-    return (
-        <Drawer.Navigator>
-            <Drawer.Screen name="Teste1" component={CadastrarAluno} />
-            <Drawer.Screen name="Teste2" component={CadastrarAluno} />
-        </Drawer.Navigator>
 
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -201,6 +205,7 @@ const styles = StyleSheet.create({
         height: 52,
         backgroundColor: '#B38DF7',
         marginTop: 10,
+        marginBottom: 15,
         borderRadius: 4,
         alignItems: 'center',
         justifyContent: 'center',

@@ -1,23 +1,31 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimension, Picker } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimension, Picker, Dimensions } from 'react-native';
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 import 'react-native-gesture-handler';
-
 import ipv4 from 'PortalEducacaoBack/ipv4.json'; //Acessar IP back-End
+import Select from '../layout-components/Select/Select.js';
 
 export default function CadastrarEscola() {
 
-    const ipAddress = ipv4.ip; //puxando IP function
+    const route = useRoute();
     const navigation = useNavigation();
-    const baseUrl = "http://"+ipAddress+":3000/escola"; //Retorno da constante
+    const baseUrl = "http://"+ipv4.ip+":3000/escola"; 
 
     const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
     const [currentTelefone, setCurrentTelefone] = useState('');//Criar validação de campo vazio 
     const [currentEndereco, setCurrentEndereco] = useState('');//Criar validação de campo vazio 
-    const [selectedValue, setSelectedValue] = useState("Ensino Fundamental");//Criar validação de campo vazio 
+    const [currentValue, setCurrentValue] = useState("Escolha uma opção: ");//Criar validação de campo vazio 
 
+    // useEffect para receber o valor selecionado na outra tela
+    useEffect(()=>{
+        if(route.params?.selectedValue){
+            setCurrentValue(route.params.selectedValue);
+        }
+    });
+
+    
     const showAlert = () => 
         Alert.alert(
             "Sucesso!",
@@ -45,7 +53,7 @@ export default function CadastrarEscola() {
         // Envia requisição POST
         await axios.post(baseUrl, {
             endereco: currentEndereco,
-            ensinotrabalhado: selectedValue,
+            ensinotrabalhado: currentValue,
             nome: currentNome,
             telefone: currentTelefone,
         })
@@ -55,7 +63,8 @@ export default function CadastrarEscola() {
                 setCurrentEndereco('');
                 setCurrentNome('');
                 setCurrentTelefone('');
-                setSelectedValue('Ensino Fundamental')
+                route.params.selectedValue = undefined;
+                setCurrentValue('Escolha uma opção: ')
 
                 // // //
                 console.log(response.data);
@@ -67,10 +76,10 @@ export default function CadastrarEscola() {
 
     }
 
-
     return (
 
         <View style={styles.container}>
+
             <Icon
                 containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
                 name="arrow-back"
@@ -116,34 +125,27 @@ export default function CadastrarEscola() {
             />
 
             <Text style={styles.inputTextName}>Ensino trabalhado</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-
+            
+            <Select
+                currentValue={currentValue}
+                items={['Ensino Fundamental', 'Ensino Médio']}
+                return={'Cadastrar Escola'}
+                boxWidth={Dimensions.get('screen').width*0.9}
+                boxHeight={200}
             >
-                <Picker.Item key={0} label="Ensino Fundamental" value="Ensino Fundamental"></Picker.Item>
-                <Picker.Item key={1} label="Ensino Médio" value="Ensino Médio"></Picker.Item>
-            </Picker>
+            </Select>
+
 
             <TouchableOpacity style={styles.botao} title="Show alert" onPress={postEscolaData}>
                 <Text style={styles.textoBotao}> Cadastrar Escola</Text>
 
             </TouchableOpacity>
 
+
         </View>
     )
 }
 
-function UserDrawer() {
-    return (
-        <Drawer.Navigator>
-            <Drawer.Screen name="Teste1" component={CadastrarEscola} />
-            <Drawer.Screen name="Teste2" component={CadastrarEscola} />
-        </Drawer.Navigator>
-
-    );
-}
 
 const styles = StyleSheet.create({
     container: {

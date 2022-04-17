@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
-import login from './../Login';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 

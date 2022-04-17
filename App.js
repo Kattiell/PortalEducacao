@@ -17,18 +17,20 @@ import { LogBox } from 'react-native';
 import AlunoScreen from './components/Aluno';
 import LoginProf from './components/LoginProf';
 import ProfScreen from './components/Professor';
-
+import ipv4 from './../PortalEducacaoBack/ipv4.json';
 import CriarAtividade from './components/Professor/CriarAtividade';
+import SelectionScreen from './components/layout-components/Select/SelectionScreen';
+import HorariosProfessor from './components/Admin/CadastroCronogramaAula';
+import CadastrarTurma from './components/Admin/CadastroTurma';
 
+//logs
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-
-YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
-
 
 export default function App() {
 
@@ -41,31 +43,38 @@ export default function App() {
           {(props) => <Login {...props} logo={require('./assets/logo.png')} />}
         </Stack.Screen>
 
+        <Stack.Screen name="loginaluno">
+          {(props) => <LoginAluno {...props} logo={require('./assets/logo.png')} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="loginprof">
+          {(props) => <LoginProf {...props} logo={require('./assets/logo.png')} />}
+        </Stack.Screen>
+
+        {/* -------------------------------------------------------------------------- */}
+
         {/* Rota para tela de reset de senha*/}
         <Stack.Screen name="Esqueceu_senha" component={Esqueceu_Senha} />
 
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
 
-        <Stack.Screen name="loginaluno">
-          {(props) => <LoginAluno {...props} logo={require('./assets/logo.png')} />}
-        </Stack.Screen>
-
         <Stack.Screen name="AlunoScreen" component={DrawerRoutesAluno} />
-
-        <Stack.Screen name="loginprof">
-          {(props) => <LoginProf {...props} logo={require('./assets/logo.png')} />}
-        </Stack.Screen>
 
         <Stack.Screen name="profscreen" component={DrawerRoutesProfessor} />
 
-        <Stack.Screen name="CriarAtividade" component={DrawerRoutesProfessor}/>
+        <Stack.Screen name="CriarAtividade" component={DrawerRoutesProfessor} />
+
 
 
         {/* Rota para tela da página inicial do aplicativo*/}
         <Stack.Screen name="Acesso">
           {(props) => <Acesso {...props} logo={require('./assets/logo.png')} />}
         </Stack.Screen>
+
+        {/* Rota para tela do Select (com fundo transparente) */}
+        <Stack.Screen name="SelectionScreen" component={SelectionScreen} options={{ presentation: 'transparentModal' }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -81,40 +90,45 @@ function DrawerRoutes({ navigation }) {
       <Drawer.Screen name="Menu Administrador" component={AdminScreen} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de uma escola (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Escola" component={CadastrarEscola} options={{ headerTitle: '' }} />
+      {/* Rota para tela de cadastro de uma turma (Com Drawer)*/}
+      <Drawer.Screen name="Cadastrar Turma" component={CadastrarTurma} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de uma professor (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Professor" component={CadastroProfessor} options={{ headerTitle: '' }} />
+      {/* Rota para tela de cadastro de um professor (Com Drawer)*/}
+      <Drawer.Screen name="Cadastrar Horario Professor" component={HorariosProfessor} options={{ headerTitle: '' }} /> 
       {/* Rota para tela de cadastro de uma aluno (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Aluno" component={CadastroAluno} options={{ headerTitle: '' }} />
+
+      
 
     </Drawer.Navigator>
 
   );
 }
 
-function DrawerRoutesAluno({navigation}){
-  return(
-      <Drawer.Navigator  initialRouteName="Menu Aluno" drawerContent={(props) => <DrawerList {...props} />} >
+function DrawerRoutesAluno({ navigation }) {
+  return (
+    <Drawer.Navigator initialRouteName="Menu Aluno" drawerContent={(props) => <DrawerList {...props} />} >
 
-         {/* Rota das funções do login aluno (Com Drawer)*/}
-         <Drawer.Screen name="Menu Aluno"  component={AlunoScreen}   options={{ headerTitle: '' }}  />
+      {/* Rota das funções do login aluno (Com Drawer)*/}
+      <Drawer.Screen name="Menu Aluno" component={AlunoScreen} options={{ headerTitle: '' }} />
 
+    </Drawer.Navigator>
 
-      </Drawer.Navigator>
-         
   )
 }
 
-function DrawerRoutesProfessor({navigation}){
-  return(
-      <Drawer.Navigator  initialRouteName="Menu Professor" drawerContent={(props) => <DrawerList {...props} />} >
+function DrawerRoutesProfessor({ navigation }) {
+  return (
+    <Drawer.Navigator initialRouteName="Menu Professor" drawerContent={(props) => <DrawerList {...props} />} >
 
-         {/* Rota das funções do login aluno (Com Drawer)*/}
-         <Drawer.Screen name="Menu Professor"  component={ProfScreen}   options={{ headerTitle: '' }}  />
+      {/* Rota das funções do login aluno (Com Drawer)*/}
+      <Drawer.Screen name="Menu Professor" component={ProfScreen} options={{ headerTitle: '' }} />
 
-         <Drawer.Screen name="CriarAtividade"  component={CriarAtividade}   options={{ headerTitle: '' }}  />
+      <Drawer.Screen name="Criar Atividade" component={CriarAtividade} options={{ headerTitle: '' }} />
 
-      </Drawer.Navigator>
-         
+    </Drawer.Navigator>
+
   )
 }
 
@@ -148,4 +162,5 @@ const DrawerTheme = {
     text: 'rgb(43,58,78)',
     border: 'rgb(255,255,255)',
   },
+
 };

@@ -7,6 +7,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword, auth } from '../firebase';
 import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 export default function Login(props) {
 
@@ -56,7 +57,7 @@ export default function Login(props) {
     if(secureState == true) setSecureState(false)
     else setSecureState(true);
   }
-  YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+
   
   return (
     
@@ -104,7 +105,8 @@ export default function Login(props) {
         style={styles.botao}
         // Onpress() temporário para teste
         onPress={() =>{
-         login()
+         //login()
+         navigation.navigate('AdminScreen');
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>

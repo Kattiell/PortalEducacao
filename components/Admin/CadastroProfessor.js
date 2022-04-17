@@ -5,23 +5,38 @@ import { Icon } from 'react-native-elements';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
+import ipv4 from 'PortalEducacaoBack/ipv4.json';
 
 export default function CadastroProfessor() {
 
     const navigation = useNavigation();
-    const baseUrl = "http://192.168.100.22:3000/professor";
+    const baseUrl = "http://"+ipv4.ip+":3000/professor";
     const [currentNome, setCurrentNome] = useState('');
-    const [currentCPF, setCurrentCPF] = useState('');
-    const [currentRG, setCurrentRG] = useState('');
-    const [currentOrgaoEmissor, setCurrentOrgaoEmissor] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [currentTelefone, setCurrentTelefone] = useState('');
+    const [currentEndereco, setCurrentEndereco] = useState('');//Criar validação de campo vazio 
+    const [currentFormacao, setCurrentFormacao] = useState('');
     const [currentNascimento, setCurrentNascimento] = useState('');
 
-    const [selectedValue, setSelectedValue] = useState("");
+    const [selectedEnsino, setSelectedEnsino] = useState("");
+    const [selectedSexo, setSelectedSexo] = useState("");
+    const [selectedDisciplina, setSelectedDisciplina] = useState("");
 
     const showAlert = () =>
         Alert.alert(
             "Sucesso!",
             "Professor Cadastrado com Sucesso",
+            [
+                {
+                    text: "Fechar",
+                    style: "Fechar",
+                },
+            ],
+        );
+        const showAlertErro = () =>
+        Alert.alert(    
+            "Ocorreu um Erro!",
+            "Erro com os Dados",
             [
                 {
                     text: "Fechar",
@@ -35,28 +50,30 @@ export default function CadastroProfessor() {
         // Envia requisição POST
         await axios.post(baseUrl, {
             nome: currentNome,
-            cpf: currentCPF,
-            rg: currentRG,
-            orgaoEmissor: currentOrgaoEmissor,
-            dataNascimento: currentNascimento, 
-            sexo: selectedValue,
-            disciplinaTrabalhar: selectedValue,
-            ensinoTrabalhar: selectedValue,
-            serieTrabalhar: selectedValue,
+            telefone: currentTelefone,
+            datadenascimento: currentNascimento, 
+            formacao: currentFormacao,
+            endereco: currentEndereco,
+            sexo: selectedSexo,
+            disciplinaatrabalhar: selectedDisciplina,
+            ensinotrabalhado: selectedEnsino,
+            email: currentEmail,
         })
             .then(function (response) {
                 showAlert();
                 // Limpa campos após cadastro
                 setCurrentNome('');
-                setCurrentCPF('');
-                setCurrentRG('');
-                setCurrentOrgaoEmissor('');
+                setCurrentEmail('');
                 setCurrentNascimento('');
+                setCurrentTelefone('');
+                setCurrentFormacao('');
+                setCurrentEndereco('');
 
                 console.log(response.data);
             })
-            .catch(function (e) {
-                console.log(e)
+            .catch(function (error) {
+                showAlertErro()
+                console.log(error)
             });
 
     }
@@ -65,6 +82,18 @@ export default function CadastroProfessor() {
     return (
 
         <ScrollView>
+            
+             <Icon
+                containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
+                name="arrow-back"
+                type="material"
+                size={40}
+                color='#B088F7'
+                onPress={() => {
+                    navigation.navigate('Menu Administrador');
+                }}
+            ></Icon>
+
             <View style={styles.container}>
             <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20, marginLeft: 30 }}>Cadastrar Professor</Text>
 
@@ -78,37 +107,37 @@ export default function CadastroProfessor() {
                 placeholder="Digite o nome do professor"
             />
 
-            <Text style={styles.inputTextName}>CPF:</Text>
+            <Text style={styles.inputTextName}>E-mail:</Text>
             <TextInput
-                value={currentCPF}
+                value={currentEmail}
                 onChangeText={(value) => {
-                    setCurrentCPF(value);
+                    setCurrentEmail(value);
+                }}
+                style={styles.input}
+                placeholder="Digite o seu e-mail"
+            />
+
+            <Text style={styles.inputTextName}>Telefone:</Text>
+            <TextInput
+                value={currentTelefone}
+                onChangeText={(value) => {
+                   setCurrentTelefone(value);
                 }}
                 style={styles.input}
                 keyboardType="phone-pad"
-                placeholder="Digite o CPF"
+                placeholder="Digite o numero de Telefone    "
             />
 
-            <Text style={styles.inputTextName}>RG:</Text>
+            <Text style={styles.inputTextName}>Endereço</Text>
             <TextInput
-                value={currentRG}
+                value={currentEndereco}
                 onChangeText={(value) => {
-                    setCurrentRG(value);
+                    setCurrentEndereco(value);
                 }}
                 style={styles.input}
-                keyboardType="phone-pad"
-                placeholder="Digite o RG"
+                placeholder="Endereço completo"
             />
 
-            <Text style={styles.inputTextName}>Orgão emissor:</Text>
-            <TextInput
-                value={currentOrgaoEmissor}
-                onChangeText={(value) => {
-                    setCurrentOrgaoEmissor(value);
-                }}
-                style={styles.input}
-                placeholder="Digite o orgão emissor"
-            />
 
             <Text style={styles.inputTextName}>Data de nascimento:</Text>
             <TextInput
@@ -122,68 +151,54 @@ export default function CadastroProfessor() {
 
             <Text style={styles.inputTextName}>Sexo</Text>
             <Picker
-                selectedValue={selectedValue}
+                selectedValue={selectedSexo}
                 style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                onValueChange={(itemValue, itemIndex) => setSelectedSexo(itemValue)}
 
             >
                 <Picker.Item key={0} label="Feminino" value="Feminino"></Picker.Item>
                 <Picker.Item key={1} label="Masculino" value="Masculino"></Picker.Item>
             </Picker>
 
-            <Text style={styles.inputTextName}>Estado civil</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-
-            >
-                <Picker.Item key={0} label="Solteiro" value="Solteiro"></Picker.Item>
-                <Picker.Item key={1} label="Casado" value="Casado"></Picker.Item>
-                <Picker.Item key={2} label="Divorciado" value="Divorciado"></Picker.Item>
-            </Picker>
-
             <Text style={styles.inputTextName}>Disciplina a trabalhar</Text>
             <Picker
-                selectedValue={selectedValue}
+                selectedValue={selectedDisciplina}
                 style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                onValueChange={(itemValue, itemIndex) => setSelectedDisciplina(itemValue)}
 
             >
                 <Picker.Item key={0} label="Artes" value="Artes"></Picker.Item>
-                <Picker.Item key={1} label="Ciências" value="Ciencias"></Picker.Item>
+                <Picker.Item key={1} label="Biologia" value="Biologia"></Picker.Item>
                 <Picker.Item key={2} label="Educação Fisica" value="Educação Fisica"></Picker.Item>
                 <Picker.Item key={3} label="Geográfia" value="Geografia"></Picker.Item>
                 <Picker.Item key={4} label="História" value="Historia"></Picker.Item>
                 <Picker.Item key={5} label="Inglês" value="Ingles"></Picker.Item>
                 <Picker.Item key={6} label="Língua Portuguesa" value="Lingua Portuguesa"></Picker.Item>
                 <Picker.Item key={7} label="Matemática" value="Matematica"></Picker.Item>
+                <Picker.Item key={8} label="Quimica" value="Quimica"></Picker.Item>
+                <Picker.Item key={9} label="Fisica" value="Fisica"></Picker.Item>
+
             </Picker>
+
+            <Text style={styles.inputTextName}>Formação Acadêmica:</Text>
+            <TextInput
+                value={currentFormacao}
+                onChangeText={(value) => {
+                    setCurrentFormacao(value);
+                }}
+                style={styles.input}
+                placeholder="Digite a sua formação"
+            />
 
             <Text style={styles.inputTextName}>Ensino a trabalhar</Text>
             <Picker
-                selectedValue={selectedValue}
+                selectedValue={selectedEnsino}
                 style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                onValueChange={(itemValue, itemIndex) => setSelectedEnsino(itemValue)}
 
             >
                 <Picker.Item key={0} label="Ensino Fundamental" value="Ensino Fundamental"></Picker.Item>
                 <Picker.Item key={1} label="Ensino Médio" value="Ensino Medio"></Picker.Item>
-            </Picker>
-
-            <Text style={styles.inputTextName}>Série a trabalhar</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-
-            >
-                <Picker.Item key={0} label="1° Ano" value="1° Ano"></Picker.Item>
-                <Picker.Item key={1} label="2° Ano" value="2° Ano"></Picker.Item>
-                <Picker.Item key={2} label="3° Ano" value="3° Ano"></Picker.Item>
-                <Picker.Item key={3} label="4° Ano" value="4° Ano"></Picker.Item>
-                <Picker.Item key={4} label="5° Ano" value="5° Ano"></Picker.Item>
-                <Picker.Item key={5} label="6° Ano" value="6° Ano"></Picker.Item>
             </Picker>
 
             <TouchableOpacity style={styles.botao} title="Show alert" onPress={postProfessorData}>
@@ -197,15 +212,7 @@ export default function CadastroProfessor() {
     )
 }
 
-function UserDrawer() {
-    return (
-        <Drawer.Navigator>
-            <Drawer.Screen name="Teste1" component={CadastrarProfessor} />
-            <Drawer.Screen name="Teste2" component={CadastrarProfessor} />
-        </Drawer.Navigator>
 
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -219,6 +226,7 @@ const styles = StyleSheet.create({
         height: 52,
         backgroundColor: '#B38DF7',
         marginTop: 10,
+        marginBottom: 15,
         borderRadius: 4,
         alignItems: 'center',
         justifyContent: 'center',
