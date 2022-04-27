@@ -1,23 +1,46 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimension, Picker } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, Picker } from 'react-native';
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import ipv4 from 'PortalEducacaoBack/ipv4.json';
+import Select from '../layout-components/Select/Select';
 
 export default function CadastroAluno() {
 
     const navigation = useNavigation();
-    const baseUrl = "http://"+ipv4.ip+":3000/aluno";
+    const route = useRoute();
+    const baseUrl = "http://" + ipv4.ip + ":3000/aluno";
     const [currentNome, setCurrentNome] = useState('');
+    const [currentNomeReponsavel, setCurrentNomeResponsavel] = useState('');
     const [currentCPF, setCurrentCPF] = useState('');
-    const [currentRG, setCurrentRG] = useState('');
-    const [currentOrgaoEmissor, setCurrentOrgaoEmissor] = useState('');
+    const [currentTelefone, setCurrentTelefone] = useState('');
+    const [currentEndereco, setCurrentEndereco] = useState('');
     const [currentNascimento, setCurrentNascimento] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [currentGeneratP, setCurrentGenerateP] = useState('');
+    const [selectedSexo, setSelectedSexo] = useState("Selecione seu genêro");
+    const [selectedTurma, setSelectedTurma] = useState("Selecione a sua Turma");
 
-    const [selectedValue, setSelectedValue] = useState("");
+
+    useEffect(() => {
+        if (route.params?.selectedValue && route.params?.label) {
+            switch (route.params.label) {
+                case 'Sexo':
+                    setSelectedSexo(route.params.selectedValue)
+                    break;
+
+                case 'Turma':
+                    setSelectedTurma(route.params.selectedValue)
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    });
 
     const showAlert = () =>
         Alert.alert(
@@ -31,31 +54,72 @@ export default function CadastroAluno() {
             ],
         );
 
+    function showAlertErro(listErrors) {
+        let erros = "Erro com os Dados\n\n";
+        listErrors['error'].map((err) => {
+            erros += "\n->  " + err + ".";
+        });
+
+        Alert.alert(
+            "Ocorreu um Erro!",
+            erros,
+            [
+                {
+                    text: "Fechar",
+                    style: "color:'#FFFFFF'",
+                },
+            ],
+        );
+    }
+
+    function generateP() {
+        var pass = '';
+        var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+            'abcdefghijklmnopqrstuvwxyz0123456789@#$';
+
+        for (let i = 1; i <= 8; i++) {
+            var char = Math.floor(Math.random()
+                * str.length + 1);
+
+            pass += str.charAt(char)
+        }
+        return pass;
+    }
+
+
     const postAlunoData = async () => {
 
         // Envia requisição POST
         await axios.post(baseUrl, {
-            nome: currentNome,
-            cpf: currentCPF,
-            rg: currentRG,
-            orgaoEmissor: currentOrgaoEmissor,
-            dataNascimento: currentNascimento, 
-            sexo: selectedValue,
-            serie: selectedValue,
-            turma: selectedValue,
+            nomedoaluno: currentNome,
+            endereco: currentEndereco,
+            email: currentEmail,
+            telefone: currentTelefone,
+            datadenascimento: currentNascimento,
+            nomedoresponsavel: currentNomeReponsavel,
+            cpfresponsavel: currentCPF,
+            sexo: selectedSexo,
+            turma: selectedTurma,
         })
             .then(function (response) {
                 showAlert();
                 // Limpa campos após cadastro
                 setCurrentNome('');
-                setCurrentCPF('');
-                setCurrentRG('');
-                setCurrentOrgaoEmissor('');
+                setCurrentNomeResponsavel('');
+                setCurrentTelefone('');
+                setCurrentEndereco('');
                 setCurrentNascimento('');
+                setCurrentCPF('');
+                setCurrentEmail('');
+                setSelectedSexo('Selecione seu genêro');
+                setSelectedTurma('Seleciona a sua Turma');
+
                 console.log(response.data);
             })
-            .catch(function (e) {
-                console.log(e)
+            .catch(function (error) {
+                console.log(error)
+                console.log(error.response.data)
+                showAlertErro(error.response.data)
             });
 
     }
@@ -64,130 +128,143 @@ export default function CadastroAluno() {
 
         <ScrollView>
 
-               <Icon
+            <Icon
                 containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
                 name="arrow-back"
                 type="material"
                 size={40}
                 color='#B088F7'
                 onPress={() => {
+                    setCurrentNome('');
+                    setCurrentNomeResponsavel('');
+                    setCurrentTelefone('');
+                    setCurrentEndereco('');
+                    setCurrentNascimento('');
+                    setCurrentCPF('');
+                    setCurrentEmail('');
+                    setCurrentGenerateP('');
+                    setSelectedSexo('Selecione seu genêro');
+                    setSelectedTurma('Seleciona a sua Turma');
                     navigation.navigate('Menu Administrador');
                 }}
             ></Icon>
 
             <View style={styles.container}>
-            <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20, marginLeft: 30 }}>Cadastrar Aluno</Text>
+                <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20, marginLeft: 30 }}>Cadastrar Aluno</Text>
 
-            <Text style={styles.inputTextName}>Nome completo:</Text>
-            <TextInput
-                value={currentNome}
-                onChangeText={(value) => {
-                    setCurrentNome(value);
-                }}
-                style={styles.input}
-                placeholder="Digite o nome do aluno"
-            />
+                <Text style={styles.inputTextName}>Nome completo:</Text>
+                <TextInput
+                    value={currentNome}
+                    onChangeText={(value) => {
+                        setCurrentNome(value);
+                    }}
+                    style={styles.input}
+                    placeholder="Digite o nome do aluno"
+                />
+                <Text style={styles.inputTextName}>Telefone:</Text>
+                <TextInput
+                    value={currentTelefone}
+                    onChangeText={(value) => {
+                        setCurrentTelefone(value);
+                    }}
+                    style={styles.input}
+                    keyboardType="phone-pad"
+                    placeholder="Digite o numero de Telefone"
+                />
 
-            <Text style={styles.inputTextName}>CPF:</Text>
-            <TextInput
-                value={currentCPF}
-                onChangeText={(value) => {
-                    setCurrentCPF(value);
-                }}
-                style={styles.input}
-                keyboardType="phone-pad"
-                placeholder="Digite o CPF"
-            />
+                <Text style={styles.inputTextName}>Endereço:</Text>
+                <TextInput
+                    value={currentEndereco}
+                    onChangeText={(value) => {
+                        setCurrentEndereco(value);
+                    }}
+                    style={styles.input}
+                    placeholder="Endereço completo"
+                />
 
-            <Text style={styles.inputTextName}>RG:</Text>
-            <TextInput
-                value={currentRG}
-                onChangeText={(value) => {
-                    setCurrentRG(value);
-                }}
-                style={styles.input}
-                keyboardType="phone-pad"
-                placeholder="Digite o RG"
-            />
+                <Text style={styles.inputTextName}>E-mail do Aluno:</Text>
+                <TextInput
+                    value={currentEmail}
+                    onChangeText={(value) => {
+                        setCurrentEmail(value);
+                    }}
+                    style={styles.input}
+                    placeholder="Digite o e-mail do Aluno"
+                />
 
-            <Text style={styles.inputTextName}>Orgão emissor:</Text>
-            <TextInput
-                value={currentOrgaoEmissor}
-                onChangeText={(value) => {
-                    setCurrentOrgaoEmissor(value);
-                }}
-                style={styles.input}
-                placeholder="Digite o orgão emissor"
-            />
+                <TouchableOpacity style={styles.botao} title="Gerar Senha" onPress={() => setCurrentGenerateP(generateP)} >
 
-            <Text style={styles.inputTextName}>Data de nascimento:</Text>
-            <TextInput
-                value={currentNascimento}
-                onChangeText={(value) => {
-                    setCurrentNascimento(value);
-                }}
-                style={styles.input}
-                placeholder="Data de nascimento"
-            />
+                    <Text style={styles.textoBotao}>Gerar Senha para o Aluno</Text>
 
-            <Text style={styles.inputTextName}>Sexo</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                </TouchableOpacity>
+                <TextInput
+                    value={currentGeneratP}
+                    style={styles.input}
+                    placeholder="Senha Gerada"
+                />
 
-            >
-                <Picker.Item key={0} label="Feminino" value="Feminino"></Picker.Item>
-                <Picker.Item key={1} label="Masculino" value="Masculino"></Picker.Item>
-            </Picker>
+                <Text style={styles.inputTextName}>Data de nascimento:</Text>
+                <TextInput
+                    value={currentNascimento}
+                    onChangeText={(value) => {
+                        setCurrentNascimento(value);
+                    }}
+                    style={styles.input}
+                    placeholder="Data de nascimento do Aluno"
+                />
 
-            <Text style={styles.inputTextName}>Estado civil</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                <Text style={styles.inputTextName}>Nome Do Resposanvel:</Text>
+                <TextInput
+                    value={currentNomeReponsavel}
+                    onChangeText={(value) => {
+                        setCurrentNomeResponsavel(value);
+                    }}
+                    style={styles.input}
+                    placeholder="Digite o nome do responsavel"
+                />
 
-            >
-                <Picker.Item key={0} label="Solteiro" value="Solteiro"></Picker.Item>
-                <Picker.Item key={1} label="Casado" value="Casado"></Picker.Item>
-                <Picker.Item key={2} label="Divorciado" value="Divorciado"></Picker.Item>
-            </Picker>
+                <Text style={styles.inputTextName}>CPF Do Resposanvel:</Text>
+                <TextInput
+                    value={currentCPF}
+                    onChangeText={(value) => {
+                        setCurrentCPF(value);
+                    }}
+                    style={styles.input}
+                    keyboardType="phone-pad"
+                    placeholder="Digite o CPF"
+                />
 
-            <Text style={styles.inputTextName}>Série</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
 
-            >
-                <Picker.Item key={0} label="1° Ano" value="1° Ano"></Picker.Item>
-                <Picker.Item key={1} label="2° Ano" value="2° Ano"></Picker.Item>
-                <Picker.Item key={2} label="3° Ano" value="3° Ano"></Picker.Item>
-                <Picker.Item key={3} label="4° Ano" value="4° Ano"></Picker.Item>
-                <Picker.Item key={4} label="5° Ano" value="5° Ano"></Picker.Item>
-                <Picker.Item key={5} label="6° Ano" value="6° Ano"></Picker.Item>
-            </Picker>
+                <Text style={styles.inputTextName}>Genêro:</Text>
+                <Select
+                    label={'Genero'}
+                    currentValue={selectedSexo}
+                    items={['Masculino', 'Feminino', 'Cisgenêro', 'Transgênero']}
+                    return={'Cadastrar Aluno'}
+                    boxWidth={Dimensions.get('screen').width * 0.9}
+                    boxHeight={200}
+                >
+                </Select>
 
-            <Text style={styles.inputTextName}>Turma</Text>
-            <Picker
-                selectedValue={selectedValue}
-                style={{ height: 50, width: 300, marginLeft: 35, color: "#696969", fontSize: 40 }}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                <Text style={styles.inputTextName}>Turma:</Text>
+                <Select
+                    label={'Genero'}
+                    currentValue={selectedTurma}
+                    items={['101', '201', '301', '401', '501']}
+                    return={'Cadastrar Aluno'}
+                    boxWidth={Dimensions.get('screen').width * 0.9}
+                    boxHeight={200}
+                >
+                </Select>
 
-            >
-                <Picker.Item key={0} label="A" value="A"></Picker.Item>
-                <Picker.Item key={1} label="B" value="B"></Picker.Item>
-                <Picker.Item key={2} label="C" value="C"></Picker.Item>
-            </Picker>
+                <TouchableOpacity style={styles.botao} title="Show alert" onPress={postAlunoData}>
+                    <Text style={styles.textoBotao}> Cadastrar Aluno </Text>
 
-            <TouchableOpacity style={styles.botao} title="Show alert" onPress={postAlunoData}>
-                <Text style={styles.textoBotao}> Cadastrar Aluno</Text>
+                </TouchableOpacity>
 
-            </TouchableOpacity>
-
-        </View>
+            </View>
         </ScrollView>
-        
+
     )
 }
 

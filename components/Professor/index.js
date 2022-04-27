@@ -32,10 +32,10 @@ export default function ProfScreen(){
                 <Text style={styles.title}>Menu do Professor</Text>
 
                 <View style={styles.containerFunctions}>
-                    <BoxFunction onPress="CriarAtividade" nameIcon="book" functionBox="Criar Atividade"/>
-                    <BoxFunction onPress={()=>{}} nameIcon="folder" functionBox="Postar Material"/>
-                    <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horários"/>
-                    <BoxFunction onPress={()=>{}} nameIcon="contacts" functionBox="Fórum de Duvidas"/>
+                    <BoxFunction onPress="Criar Atividade" nameIcon="book" functionBox="Criar Atividade"/>
+                    <BoxFunction onPress="Postar Conteudo" nameIcon="folder" functionBox="Postar Material"/>
+                    <BoxFunction onPress="Cronograma De Aula" nameIcon="alarm" functionBox="Horários"/>
+                    <BoxFunction onPress="Acesso Duvidas" nameIcon="contacts" functionBox="Fórum de Duvidas"/>
                 </View>          
        </ScrollView>
     </SafeAreaView>

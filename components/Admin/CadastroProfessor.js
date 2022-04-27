@@ -170,10 +170,10 @@ export default function CadastroProfessor() {
                 }}
                 style={styles.input}
                 keyboardType="phone-pad"
-                placeholder="Digite o numero de Telefone    "
+                placeholder="Digite o numero de Telefone"
             />
 
-            <Text style={styles.inputTextName}>Endereço</Text>
+            <Text style={styles.inputTextName}>Endereço:</Text>
             <TextInput
                 value={currentEndereco}
                 onChangeText={(value) => {
@@ -205,7 +205,7 @@ export default function CadastroProfessor() {
             >
             </Select>
 
-            <Text style={styles.inputTextName}>Disciplina a trabalhar</Text>
+            <Text style={styles.inputTextName}>Disciplina a trabalhar:</Text>
             
             <Select
                 label={'Disciplina'}

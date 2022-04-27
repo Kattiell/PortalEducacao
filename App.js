@@ -22,6 +22,13 @@ import CriarAtividade from './components/Professor/CriarAtividade';
 import SelectionScreen from './components/layout-components/Select/SelectionScreen';
 import HorariosProfessor from './components/Admin/CadastroCronogramaAula';
 import CadastrarTurma from './components/Admin/CadastroTurma';
+import PostarConteudo from './components/Professor/PostarConteudo';
+import AcessoAtividade from './components/Aluno/AcessoAtividades';
+import TirarDuvida from './components/Aluno/TirarDuvidas';
+import HorariosAula from './components/Aluno/HorariosAula';
+import VerConteudo from './components/Aluno/VerConteudos';
+import CronogramaDeAula from './components/Professor/CronogramaDeAula';
+import AcessarDuvidas from './components/Professor/AcessoDuvidas';
 
 //logs
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -59,12 +66,30 @@ export default function App() {
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
 
+
+
+        {/* Rota para tela inicial do Aluno (Com Drawer)*/}
+
         <Stack.Screen name="AlunoScreen" component={DrawerRoutesAluno} />
 
+        <Stack.Screen name="VerConteudo" component={DrawerRoutesAluno} />
+
+        <Stack.Screen name="TirarDuvidas" component={DrawerRoutesAluno} />
+
+        <Stack.Screen name="HorariosAula" component={DrawerRoutesAluno} />
+
+        <Stack.Screen name="AcessoAtividade" component={DrawerRoutesAluno} />
+
+        {/* Rota para a tela inicia do professor */}
         <Stack.Screen name="profscreen" component={DrawerRoutesProfessor} />
 
         <Stack.Screen name="CriarAtividade" component={DrawerRoutesProfessor} />
 
+        <Stack.Screen name="PostarConteudo" component={DrawerRoutesProfessor} />
+
+        <Stack.Screen name="AcessarDuvidas" component={DrawerRoutesProfessor} />
+
+        <Stack.Screen name="CronogramaDeAula" component={DrawerRoutesProfessor} />
 
 
         {/* Rota para tela da página inicial do aplicativo*/}
@@ -95,11 +120,11 @@ function DrawerRoutes({ navigation }) {
       {/* Rota para tela de cadastro de uma professor (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Professor" component={CadastroProfessor} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de um professor (Com Drawer)*/}
-      <Drawer.Screen name="Cadastrar Horario Professor" component={HorariosProfessor} options={{ headerTitle: '' }} /> 
+      <Drawer.Screen name="Cadastrar Horario Professor" component={HorariosProfessor} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de uma aluno (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Aluno" component={CadastroAluno} options={{ headerTitle: '' }} />
 
-      
+
 
     </Drawer.Navigator>
 
@@ -112,6 +137,14 @@ function DrawerRoutesAluno({ navigation }) {
 
       {/* Rota das funções do login aluno (Com Drawer)*/}
       <Drawer.Screen name="Menu Aluno" component={AlunoScreen} options={{ headerTitle: '' }} />
+      {/* Rota das funções de acessar atividade do aluno (Com Drawer)*/}
+      <Drawer.Screen name="Acesso Atividade" component={AcessoAtividade} options={{ headerTitle: '' }} />
+      {/* Rota das funções de ver material postado para o aluno (Com Drawer)*/}
+      <Drawer.Screen name="Ver Conteudo" component={VerConteudo} options={{ headerTitle: '' }} />
+      {/* Rota das funções de ver o hraroio de aula do aluno (Com Drawer)*/}
+      <Drawer.Screen name="Horarios De Aula" component={HorariosAula} options={{ headerTitle: '' }} />
+      {/* Rota das funções de tirar duvidas do aluno (Com Drawer)*/}
+      <Drawer.Screen name="Tirar Duvidas" component={TirarDuvida} options={{ headerTitle: '' }} />
 
     </Drawer.Navigator>
 
@@ -124,8 +157,14 @@ function DrawerRoutesProfessor({ navigation }) {
 
       {/* Rota das funções do login aluno (Com Drawer)*/}
       <Drawer.Screen name="Menu Professor" component={ProfScreen} options={{ headerTitle: '' }} />
-
+      {/* Rota das funções de criar atividade do professor (Com Drawer)*/}
       <Drawer.Screen name="Criar Atividade" component={CriarAtividade} options={{ headerTitle: '' }} />
+      {/* Rota das funções de postar atividade professor(Com Drawer)*/}
+      <Drawer.Screen name="Postar Conteudo" component={PostarConteudo} options={{ headerTitle: '' }} />
+      {/* Rota das funções acessar duvidas (Com Drawer)*/}
+      <Drawer.Screen name="Acesso Duvidas" component={AcessarDuvidas} options={{ headerTitle: '' }} />
+      {/* Rota das funções cronograma de aula (Com Drawer)*/}
+      <Drawer.Screen name="Cronograma De Aula" component={CronogramaDeAula} options={{ headerTitle: '' }} />
 
     </Drawer.Navigator>
 
@@ -146,11 +185,6 @@ function DrawerList(props, { navigation }) {
     </DrawerContentScrollView>
   );
 }
-
-
-//DrawerALuno
-//DrawerProf
-
 
 
 /* Tema do drawer */
