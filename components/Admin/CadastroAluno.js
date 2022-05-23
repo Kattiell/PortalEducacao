@@ -7,12 +7,13 @@ import 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import ipv4 from 'PortalEducacaoBack/ipv4.json';
 import Select from '../layout-components/Select/Select';
+import TermoResponsabilidade from './TermoResponsabilidade';
 
 export default function CadastroAluno() {
 
     const navigation = useNavigation();
     const route = useRoute();
-    const baseUrl = "http://" + ipv4.ip + ":3000/aluno";
+    const baseUrl = "http://" + ipv4.ip + ":3000/alunos";
     const [currentNome, setCurrentNome] = useState('');
     const [currentNomeReponsavel, setCurrentNomeResponsavel] = useState('');
     const [currentCPF, setCurrentCPF] = useState('');
@@ -40,6 +41,10 @@ export default function CadastroAluno() {
                     break;
             }
         }
+        if (route.params?.agree != undefined) {
+            postAlunoData();
+            route.params.agree = undefined;
+        } else () => { }
     });
 
     const showAlert = () =>
@@ -100,27 +105,25 @@ export default function CadastroAluno() {
             cpfresponsavel: currentCPF,
             sexo: selectedSexo,
             turma: selectedTurma,
-        })
-            .then(function (response) {
-                showAlert();
-                // Limpa campos após cadastro
-                setCurrentNome('');
-                setCurrentNomeResponsavel('');
-                setCurrentTelefone('');
-                setCurrentEndereco('');
-                setCurrentNascimento('');
-                setCurrentCPF('');
-                setCurrentEmail('');
-                setSelectedSexo('Selecione seu genêro');
-                setSelectedTurma('Seleciona a sua Turma');
+        }).then(function (response) {
+            showAlert();
+            // Limpa campos após cadastro
+            setCurrentNome('');
+            setCurrentNomeResponsavel('');
+            setCurrentTelefone('');
+            setCurrentEndereco('');
+            setCurrentNascimento('');
+            setCurrentCPF('');
+            setCurrentEmail('');
+            setSelectedSexo('Selecione seu genêro');
+            setSelectedTurma('Seleciona a sua Turma');
 
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error)
-                console.log(error.response.data)
-                showAlertErro(error.response.data)
-            });
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error)
+            console.log(error.response.data)
+            showAlertErro(error.response.data)
+        });
 
     }
 
@@ -192,17 +195,6 @@ export default function CadastroAluno() {
                     placeholder="Digite o e-mail do Aluno"
                 />
 
-                <TouchableOpacity style={styles.botao} title="Gerar Senha" onPress={() => setCurrentGenerateP(generateP)} >
-
-                    <Text style={styles.textoBotao}>Gerar Senha para o Aluno</Text>
-
-                </TouchableOpacity>
-                <TextInput
-                    value={currentGeneratP}
-                    style={styles.input}
-                    placeholder="Senha Gerada"
-                />
-
                 <Text style={styles.inputTextName}>Data de nascimento:</Text>
                 <TextInput
                     value={currentNascimento}
@@ -235,11 +227,11 @@ export default function CadastroAluno() {
                 />
 
 
-                <Text style={styles.inputTextName}>Genêro:</Text>
+                <Text style={styles.inputTextName}>Gênero:</Text>
                 <Select
-                    label={'Genero'}
+                    label={'Sexo'}
                     currentValue={selectedSexo}
-                    items={['Masculino', 'Feminino', 'Cisgenêro', 'Transgênero']}
+                    items={['Masculino', 'Feminino']}
                     return={'Cadastrar Aluno'}
                     boxWidth={Dimensions.get('screen').width * 0.9}
                     boxHeight={200}
@@ -248,16 +240,22 @@ export default function CadastroAluno() {
 
                 <Text style={styles.inputTextName}>Turma:</Text>
                 <Select
-                    label={'Genero'}
+                    label={'Turma'}
                     currentValue={selectedTurma}
                     items={['101', '201', '301', '401', '501']}
                     return={'Cadastrar Aluno'}
                     boxWidth={Dimensions.get('screen').width * 0.9}
-                    boxHeight={200}
+                    boxHeight={300}
                 >
                 </Select>
 
-                <TouchableOpacity style={styles.botao} title="Show alert" onPress={postAlunoData}>
+                <TouchableOpacity style={styles.botao} title="Show alert" onPress={() => {
+                    navigation.navigate('TermoDeDados', {
+                        nomeDoResponsavel: currentNomeReponsavel,
+                        cpfResponsavel: currentCPF,
+                        nomeAluno: currentNome,
+                    })
+                }}>
                     <Text style={styles.textoBotao}> Cadastrar Aluno </Text>
 
                 </TouchableOpacity>

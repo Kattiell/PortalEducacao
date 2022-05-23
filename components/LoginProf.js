@@ -6,17 +6,22 @@ import Esqueceu_Senha from './Esqueceu_Senha';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword, auth } from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {YellowBox} from 'react-native';
 import ProfScreen from './Professor/index';
-
+import ipv4 from 'PortalEducacaoBack/ipv4.json'; 
+import axios from 'axios';
 
 export default function LoginProf(props) {
 
-   const [typeIcon, setTypeIcon] = useState('visibility');
-   const [secureState, setSecureState] = useState(true);
-   const navigation = useNavigation();
+  const [typeIcon, setTypeIcon] = useState('visibility');
+  const [secureState, setSecureState] = useState(true);
+  const navigation = useNavigation();
+  const [emailState, setemailState] = useState('');
+  const [senhaState, setsenhaState] = useState('');
+  const baseUrl = "http://" + ipv4.ip + ":3000/role";
 
-//Visibilidade da senha
+  //Visibilidade da senha
   function changeIcon(iconName){
     if(iconName == 'visibility'){
       setTypeIcon('visibility-off');
@@ -26,6 +31,71 @@ export default function LoginProf(props) {
       setTypeIcon('visibility');
       changeSecure();
     }
+    
+  }
+
+  function valueSenha(valueSenha){
+    setsenhaState(valueSenha)
+  }
+  function valueEmail(valueEmail){
+    setemailState(valueEmail)
+  }
+
+
+  async function login(){
+    let signIn = false;
+    if((emailState, senhaState) !== '')
+    await signInWithEmailAndPassword(auth, emailState, senhaState)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        signIn = true;
+        
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });  
+
+      if(signIn){
+        const willNavigate = await verifyUser();
+        if(willNavigate) navigation.navigate('profscreen');
+      }
+
+  }
+
+  async function getId(){
+    let usuario = '';
+    await onAuthStateChanged(auth, (user) => {
+      if (user) {
+        usuario = user.uid;
+      }
+    }).bind(()=>{
+      console.log('deu');
+    })
+    return usuario;
+    
+  }
+
+  const verifyUser = async () =>{
+    const auth = getAuth();
+    let role = '';
+    let usuario = await getId();
+
+    console.log(usuario);
+
+
+    const r = await axios.post(baseUrl,{
+        userid:usuario
+    }).then(function(response){
+        return response.data;
+    }).then(function(response){
+        role = response;
+    }).catch(function(err){
+        console.log(err);
+    })
+    
+    if(role == 'prof') return true
+    else return false;
     
   }
 
@@ -51,7 +121,7 @@ export default function LoginProf(props) {
       <TextInput
         style={styles.input}
         placeholder="Digite seu E-mail"
-        // onChangeText={(value) => {valueEmail(value)}}
+         onChangeText={(value) => {valueEmail(value)}}
       />
     
     
@@ -61,7 +131,7 @@ export default function LoginProf(props) {
             style={styles.input}
             secureTextEntry={secureState}
             placeholder="Digite sua senha"
-            // onChangeText={(value) => {valueSenha(value)}}
+            onChangeText={(value) => {valueSenha(value)}}
           />
           <View style={{position: 'absolute', top:35, right:15,}}>
             <Icon
@@ -82,7 +152,7 @@ export default function LoginProf(props) {
         style={styles.botao}
         // Onpress() temporário para teste
         onPress={() =>{
-            navigation.navigate('profscreen')
+            login();
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>

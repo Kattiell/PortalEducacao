@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BoxFunction from '../layout-components/BoxFunction';
 import { Icon } from 'react-native-elements';
@@ -6,8 +6,11 @@ import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import CriarAtividade from './CriarAtividade';
-
+import { auth } from '../../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import axios from 'axios';
+import ipv4 from 'PortalEducacaoBack/ipv4.json'; 
 
 export default function ProfScreen(){
 
@@ -45,12 +48,12 @@ export default function ProfScreen(){
 
 const styles = StyleSheet.create({
     container: {
-       flex: 1,
+      flex: 1,
        flexDirection:'column',
        backgroundColor:'#FFFFFF',
        paddingLeft:30,
        paddingRight:30,
-       paddingBottom:30,
+       paddingBottom:30, 
     },
     title:{
         fontSize:20,

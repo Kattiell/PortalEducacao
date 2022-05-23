@@ -29,7 +29,12 @@ import HorariosAula from './components/Aluno/HorariosAula';
 import VerConteudo from './components/Aluno/VerConteudos';
 import CronogramaDeAula from './components/Professor/CronogramaDeAula';
 import AcessarDuvidas from './components/Professor/AcessoDuvidas';
-
+import CadastrarMaterial from './components/Professor/CadastrarMaterial';
+import PostarAtividade from './components/Professor/PostarAtividade';
+import Text from 'react-native';
+import TermoResponsabilidade from './components/Admin/TermoResponsabilidade';
+import AuthNumero from './components/AuthNumero';
+import AuthCodigoScreen from './components/CodigoAuthNumero';
 //logs
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -43,7 +48,7 @@ export default function App() {
 
   return (
     <NavigationContainer theme={DrawerTheme}>
-      <Stack.Navigator initialRouteName='Acesso' screenOptions={{ headerShown: false, }}>
+      <Stack.Navigator initialRouteName='Acesso' screenOptions={{ headerShown: false, }} options={{ presentation: 'transparentModal' }}>
 
         {/* Rota para tela de login do usuário*/}
         <Stack.Screen name="login">
@@ -66,19 +71,20 @@ export default function App() {
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
 
-
+        {/* Rota para tela do sms (Com Drawer)*/}
+        <Stack.Screen name="PhoneScreen" component={AuthNumero} />
 
         {/* Rota para tela inicial do Aluno (Com Drawer)*/}
 
         <Stack.Screen name="AlunoScreen" component={DrawerRoutesAluno} />
 
-        <Stack.Screen name="VerConteudo" component={DrawerRoutesAluno} />
+        <Stack.Screen name="Visualizar Conteudo" component={DrawerRoutesAluno} />
 
-        <Stack.Screen name="TirarDuvidas" component={DrawerRoutesAluno} />
+        <Stack.Screen name="Tirar Duvidas" component={DrawerRoutesAluno} />
 
-        <Stack.Screen name="HorariosAula" component={DrawerRoutesAluno} />
+        <Stack.Screen name="Horarios de Aula" component={DrawerRoutesAluno} />
 
-        <Stack.Screen name="AcessoAtividade" component={DrawerRoutesAluno} />
+        <Stack.Screen name="Acessar Atividades" component={DrawerRoutesAluno} />
 
         {/* Rota para a tela inicia do professor */}
         <Stack.Screen name="profscreen" component={DrawerRoutesProfessor} />
@@ -99,7 +105,14 @@ export default function App() {
 
         {/* Rota para tela do Select (com fundo transparente) */}
         <Stack.Screen name="SelectionScreen" component={SelectionScreen} options={{ presentation: 'transparentModal' }} />
-
+        {/* Rota para tela do Select (com fundo transparente) */}
+        <Stack.Screen name="CadastrarMaterial" component={CadastrarMaterial} options={{ presentation: 'transparentModal' }} />
+         {/* Rota para tela do Select (com fundo transparente) */}
+         <Stack.Screen name="PostarAtividade" component={PostarAtividade} options={{ presentation: 'transparentModal' }} />
+         {/* */}
+         <Stack.Screen name="TermoDeDados" component={TermoResponsabilidade} options={{ presentation: 'transparentModal' }} />
+           {/* */}
+         <Stack.Screen name="AuthCodigoScreen" component={AuthCodigoScreen} options={{ presentation: 'transparentModal' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -111,6 +124,7 @@ function DrawerRoutes({ navigation }) {
 
   return (
     <Drawer.Navigator initialRouteName='Menu Administrador' drawerContent={(props) => <DrawerList {...props} />}>
+      
       {/* Rota para tela inicial do administrador (Com Drawer)*/}
       <Drawer.Screen name="Menu Administrador" component={AdminScreen} options={{ headerTitle: '' }} />
       {/* Rota para tela de cadastro de uma escola (Com Drawer)*/}
@@ -124,8 +138,6 @@ function DrawerRoutes({ navigation }) {
       {/* Rota para tela de cadastro de uma aluno (Com Drawer)*/}
       <Drawer.Screen name="Cadastrar Aluno" component={CadastroAluno} options={{ headerTitle: '' }} />
 
-
-
     </Drawer.Navigator>
 
   );
@@ -136,15 +148,15 @@ function DrawerRoutesAluno({ navigation }) {
     <Drawer.Navigator initialRouteName="Menu Aluno" drawerContent={(props) => <DrawerList {...props} />} >
 
       {/* Rota das funções do login aluno (Com Drawer)*/}
-      <Drawer.Screen name="Menu Aluno" component={AlunoScreen} options={{ headerTitle: '' }} />
+      <Drawer.Screen name="Menu do Aluno" component={AlunoScreen} options={{ headerTitle: '' }} />
       {/* Rota das funções de acessar atividade do aluno (Com Drawer)*/}
-      <Drawer.Screen name="Acesso Atividade" component={AcessoAtividade} options={{ headerTitle: '' }} />
+      <Drawer.Screen name="Acessar Atividades" component={AcessoAtividade} options={{ headerTitle: '' }} />
       {/* Rota das funções de ver material postado para o aluno (Com Drawer)*/}
-      <Drawer.Screen name="Ver Conteudo" component={VerConteudo} options={{ headerTitle: '' }} />
+      <Drawer.Screen name="Visualizar Material" component={VerConteudo} options={{ headerTitle: '' }} />
       {/* Rota das funções de ver o hraroio de aula do aluno (Com Drawer)*/}
       <Drawer.Screen name="Horarios De Aula" component={HorariosAula} options={{ headerTitle: '' }} />
       {/* Rota das funções de tirar duvidas do aluno (Com Drawer)*/}
-      <Drawer.Screen name="Tirar Duvidas" component={TirarDuvida} options={{ headerTitle: '' }} />
+      <Drawer.Screen name="Forum De Duvidas" component={TirarDuvida} options={{ headerTitle: '' }} />
 
     </Drawer.Navigator>
 
@@ -174,13 +186,14 @@ function DrawerRoutesProfessor({ navigation }) {
 
 {/* Botões customizados no Drawer */ }
 function DrawerList(props, { navigation }) {
-
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItem label="Nome do Usuário"
+      <DrawerItem label={'Administrador'}
         icon={() => <Image style={{ width: 70, height: 70, borderRadius: 50 }} source={require('./assets/user-image.png')} />}
         onPress={() => { props.navigation.navigate('login') }}
+
       />
+      
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
   );

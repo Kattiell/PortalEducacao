@@ -8,8 +8,14 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CadastroEscola from './CadastroEscola';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Select from '../layout-components/Select/Select';
+import { useEffect } from 'react';
+export default function AdminScreen({props}){
 
-export default function AdminScreen(){
+    useEffect(()=>{
+        
+    });
+
 
     const Drawer = createDrawerNavigator();
     const navigation = useNavigation();

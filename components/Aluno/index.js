@@ -31,10 +31,10 @@ export default function AlunoScreen(){
                 <Text style={styles.title}>Menu do Aluno</Text>
 
                 <View style={styles.containerFunctions}>
-                    <BoxFunction onPress="Acesso Atividade" nameIcon="book" functionBox="Atividades"/>
-                    <BoxFunction onPress="Ver Conteudo" nameIcon="folder" functionBox="Conteudos da Aula"/>
+                    <BoxFunction onPress="Acessar Atividades" nameIcon="book" functionBox="Atividades"/>
+                    <BoxFunction onPress="Visualizar Material" nameIcon="folder" functionBox="Conteudos da Aula"/>
                     <BoxFunction onPress="Horarios De Aula" nameIcon="alarm" functionBox="Horário"/>
-                    <BoxFunction onPress="Tirar Duvidas" nameIcon="contacts" functionBox="Fórum de Duvidas"/>
+                    <BoxFunction onPress="Forum De Duvidas" nameIcon="contacts" functionBox="Fórum de Duvidas"/>
                 </View>          
        </ScrollView>
     </SafeAreaView>

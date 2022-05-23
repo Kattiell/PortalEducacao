@@ -9,6 +9,7 @@ import ipv4 from 'PortalEducacaoBack/ipv4.json';
 import GradeHorarios from '../layout-components/GradeHorarios';
 import { auth,db,collection } from './../../firebase/index';
 import { getFirestore } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 const HorariosProfessor = (props) =>{
 
@@ -28,63 +29,207 @@ const HorariosProfessor = (props) =>{
         }
     );
    
+    // Recupera informações do professor
+    async function infoProfessor(){
+        let profs = [];
+        await axios.get("http://"+ipv4.ip+":3000/profInfo").
+        then(function(response){
+            profs = response.data;
+        });
+        for(const p in profs){
+           
+            if(profs[p]["nome"] == currentValue){
+                var data = {
+                    ensino: '',
+                    escola: '',
+                }
+                data['ensino'] = profs[p]["ensinotrabalhado"],
+                data['escola'] = profs[p]["escola"]
+            }
+        }
+        return data;
+      
+    }
+
+    /* Seleciona apenas as turmas da mesma escola e modalidade de 
+    ensino do professor */
+    const listTurmasByEscolaEnsino = async ()=>{
+        
+        const infoProf = await infoProfessor();
+        let turmas = [];
+        for(const element in listTurmas){
+            if(infoProf['ensino'] == listTurmas[element]['ensino'] && infoProf['escola'] == listTurmas[element]['escola']){
+               turmas.push(listTurmas[element]);
+            }
+        }
+
+        setListTurmas(turmas);
+    }
    
-    
     // Cria um objeto listando os professores cadastrados para consulta
     const listProfessor = async () =>{
-        var baseUrl = "http://"+ipv4.ip+":3000/professores";
+        let baseUrl = "http://"+ipv4.ip+":3000/professores";
         await axios.get(baseUrl).then((response)=>{
-            setListProf(response.data)
+            const r = response.data;
+            return r;
+        }).then(r=> {
+            setListProf(r)
+            return listProf;
         });
-        return listProf;
+        
     }
 
     // Cria um objeto listando as turmas existentes para consulta
     const listTurma = async() =>{
-        var baseUrl = "http://"+ipv4.ip+":3000/turmas";
+        let baseUrl = "http://"+ipv4.ip+":3000/turmas";
         await axios.get(baseUrl).then((response)=>{
             setListTurmas(response.data);
         });
     }
 
-    // Gera turmas aleatoriamente e as insere na grade horário do professor
+    // Gera turmas aleatoriamente conforme
+    // a disponibilidade e as insere na grade horário do professor.
     function generateValues(){
 
-        let currentHorarios = {
-            segunda: ['-','-','-','-','-'],
-            terca: ['-','-','-','-','-'],
-            quarta: ['-','-','-','-','-'],
-            quinta:['-','-','-','-','-'],
-            sexta: ['-','-','-','-','-'],
-        };     
-
-        if(currentValue && currentValue != 'Selecione o professor: '){     
-
-            for(const dia in currentHorarios){
-                for(const horario in currentHorarios[dia]){ 
-                    currentHorarios[dia][horario] = whoIsAvailable(dia,horario)
+            listTurmasByEscolaEnsino()
+        
+            let currentHorarios = {
+                segunda: ['-','-','-','-','-'],
+                terca: ['-','-','-','-','-'],
+                quarta: ['-','-','-','-','-'],
+                quinta:['-','-','-','-','-'],
+                sexta: ['-','-','-','-','-'],
+            };     
+    
+            if(currentValue && currentValue != 'Selecione o professor: '){     
+    
+                for(const dia in currentHorarios){
+                    for(const horario in currentHorarios[dia]){ 
+                        currentHorarios[dia][horario] = whoIsAvailable(dia,horario)
+                    }
                 }
+                
+            } else {
+                Alert.alert("Professor não selecionado!","Por favor, selecione um professor para cadastrar seus horários.",[{text: "Fechar",},],)
             }
             
-        } else {
-            Alert.alert("Professor não selecionado!","Por favor, selecione um professor para cadastrar seus horários.",[{text: "Fechar",},],)
-        }
-        
-        setHorariosProf(currentHorarios);
+            setHorariosProf(currentHorarios);   
         
     }
 
     // Retorna qual turma aleatória está disponível para ser inserida na grade de horários
     function whoIsAvailable(dia,horario){
+    
        let n = listTurmas.length;
-       var turmas = [];
+       let turmas = [];
        for(let i = 0; i < n; i++) turmas.push(listTurmas[i]["numeroTurma"]);
        let randomTurma = getRandomIntInclusive(0,n-1);
        if(listTurmas[randomTurma]["horarios"][dia][horario] == '') return turmas[randomTurma];
+       else return '';
        
     }
 
-   
+    /*
+        Busca os horários atualizados da turma.
+    */
+    const horariosAtualizadosByTurma = async (i,horariosCurrentTurma)=>{
+        
+        let t = listTurmas[i]["numeroTurma"];
+        await axios.post("http://"+ipv4.ip+":3000/turma",{
+                nTurma:t
+        }).
+        then(function(response){
+            horariosCurrentTurma = response.data;
+        }).catch(function(err){
+            console.log("Aqui óóooooo: "+err.response.data)
+        });
+
+        return horariosCurrentTurma;
+    }
+
+    const geraNovoHorario = async(i,horariosCurrentTurma) =>{
+         /*
+            Cria o novo array de horários da turma.
+         */
+            for(const dia in horariosProf){
+                for(const horario in horariosProf[dia]){
+                    if(listTurmas[i]["numeroTurma"] == horariosProf[dia][horario]){
+                        horariosCurrentTurma[dia][horario] = currentValue;
+                    }
+                }
+            }
+        return horariosCurrentTurma;
+    }
+
+    const atualizaTurmaColec = async(novoHorario,infoProf,baseUrl,i)=>{
+        /*
+            Envia um novo doc de horários para o firebase.
+        */
+    
+            await axios.put(baseUrl, {
+                ensino:infoProf['ensino'],
+                numeroTurma:listTurmas[i]["numeroTurma"], 
+                horarios:novoHorario,
+                escola:infoProf['escola'],
+            });
+           
+        
+    }
+
+    const putTurmaData = async() =>{
+
+        let baseUrl = "http://"+ipv4.ip+":3000/turmas";
+        const infoProf = await infoProfessor();
+        
+        for(let i in listTurmas){
+          
+            console.log(listTurmas[i]["numeroTurma"])
+            let horariosCurrentTurma = {
+                    segunda: ['','','','',''],
+                    terca: ['','','','',''],
+                    quarta: ['','','','',''],
+                    quinta: ['','','','',''],
+                    sexta: ['','','','',''],
+            };
+
+           let newH = horariosCurrentTurma;
+           horariosCurrentTurma = await horariosAtualizadosByTurma(i,newH);
+
+    
+           let novoHorario = {
+                segunda: ['','','','',''],
+                terca: ['','','','',''],
+                quarta: ['','','','',''],
+                quinta: ['','','','',''],
+                sexta: ['','','','',''],
+            };
+ 
+            novoHorario = await geraNovoHorario(i,horariosCurrentTurma);
+
+           atualizaTurmaColec(novoHorario,infoProf,baseUrl,i);
+       
+                
+        }
+
+        postHorariosProf(horariosProf);
+        
+        listTurma();
+
+    }
+
+    async function postHorariosProf(h){
+        
+        await axios.post("http://"+ipv4.ip+":3000/horario-professor",{
+            horarios:h,
+            nome:currentValue,
+        }).
+        then(function(response){
+           console.log("Horários do professor cadastrados com sucesso!")
+        });
+      
+
+    }
+
     useEffect(()=>{
         if(route.params?.selectedValue){
             setCurrentValue(route.params.selectedValue);
@@ -95,45 +240,7 @@ const HorariosProfessor = (props) =>{
         listTurma();
     },[]);
 
-    const putTurmaData = async() =>{
 
-        var baseUrl = "http://"+ipv4.ip+":3000/turmas";
-        
-        for(let i = 0; i < listTurmas.length; i++){
-
-            let horariosCurrentTurma = {
-                    segunda: ['','','','',''],
-                    terca: ['','','','',''],
-                    quarta: ['','','','',''],
-                    quinta: ['','','','',''],
-                    sexta: ['','','','',''],
-            };
-
-            for(const dia in horariosProf){
-                for(const horario in horariosProf[dia]){
-                   if(listTurmas[i]["numeroTurma"] == horariosProf[dia][horario]){
-                      horariosCurrentTurma[dia][horario] = currentValue;
-                   }
-                }
-            }
-
-
-            await axios.put(baseUrl, {
-                horarios:horariosCurrentTurma,
-                turma:listTurmas[i]["numeroTurma"],
-            })
-                .then(function (response) {
-                    console.log(response.data);
-                })
-                .catch(function (error) {
-                    console.log(error)
-                });
-
-
-        }
-
-
-    }
 
 
     return(
@@ -149,6 +256,7 @@ const HorariosProfessor = (props) =>{
                             setListProf(null);
                             route.params = null;
                             setCurrentValue('Selecione o professor: ');
+                            setListTurmas(null);
                             navigation.navigate('Menu Administrador');
                         }}
                     ></Icon>
@@ -162,6 +270,7 @@ const HorariosProfessor = (props) =>{
                         return={'Cadastrar Horario Professor'}
                         boxWidth={Dimensions.get('screen').width*0.9}
                         boxHeight={350}
+                       
                     >
                     </Select>
 
@@ -169,7 +278,7 @@ const HorariosProfessor = (props) =>{
                         <TouchableOpacity 
                             style={styles.botao}
                             onPress={() =>{
-                                generateValues()
+                                    generateValues()  
                             }}>
                             <Text style={styles.botaoText}>Gerar Horários</Text>
                         </TouchableOpacity>
@@ -187,7 +296,7 @@ const HorariosProfessor = (props) =>{
 
                     <TouchableOpacity 
                             style={styles.botao}
-                            onPress={() =>{
+                            onPress={()=>{
                                 putTurmaData()
                             }}>
                             <Text style={styles.botaoText}>Salvar Horários</Text>

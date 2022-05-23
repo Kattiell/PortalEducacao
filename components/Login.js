@@ -7,6 +7,9 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword, auth } from '../firebase';
 import {YellowBox} from 'react-native';
+import Select from './layout-components/Select/Select';
+
+
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 export default function Login(props) {
@@ -24,7 +27,7 @@ export default function Login(props) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigation.navigate('AdminScreen');
+        navigation.navigate('PhoneScreen');
         // ...
       })
       .catch((error) => {
@@ -78,7 +81,6 @@ export default function Login(props) {
         onChangeText={(value) => {valueEmail(value)}}
       />
     
-    
       <View>
         <Text style={styles.inputTextName}>Senha</Text>
           <TextInput
@@ -99,14 +101,14 @@ export default function Login(props) {
           </View> 
 
       </View>
-     
+
 
       <TouchableOpacity 
         style={styles.botao}
-        // Onpress() temporário para teste
+         //Onpress() temporário para teste
         onPress={() =>{
-         //login()
-         navigation.navigate('AdminScreen');
+         login()       
+         //navigation.navigate('AdminScreen')
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>

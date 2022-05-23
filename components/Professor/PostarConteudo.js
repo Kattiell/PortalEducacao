@@ -1,151 +1,104 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, Button } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { ListItem, SearchBar } from "react-native-elements";
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {FlatList } from "react-native";
 
 
-
-export default function PostarConteudo() 
-{
+export default function PostarConteudo() {
     const Drawer = createDrawerNavigator();
     const navigation = useNavigation();
+ 
 
+    return (
+        <View style={styles.container} >
+            <Icon
+                containerStyle={{ alignSelf: 'flex-start', marginLeft: 2 }}
+                name="arrow-back"
+                type="material"
+                size={40}
+                color='#B088F7'
+                onPress={() => {
+                    navigation.navigate('Menu Professor');
+                }}
+            ></Icon>
+            <TouchableOpacity style={styles.Button} onPress={() => {navigation.navigate('CadastrarMaterial');}}>
+                <Icon name="create-new-folder" size={26} color="white" />
+            </TouchableOpacity>
 
-    const DATA = [
-        {
-            id: "1",
-            title: "Data Structures",
-        },
-        {
-            id: "2",
-            title: "STL",
-        },
-        {
-            id: "3",
-            title: "C++",
-        },
-        {
-            id: "4",
-            title: "Java",
-        },
-        {
-            id: "5",
-            title: "Python",
-        },
-        {
-            id: "6",
-            title: "CP",
-        },
-        {
-            id: "7",
-            title: "ReactJs",
-        },
-        {
-            id: "8",
-            title: "NodeJs",
-        },
-        {
-            id: "9",
-            title: "MongoDb",
-        },
-        {
-            id: "10",
-            title: "ExpressJs",
-        },
-        {
-            id: "11",
-            title: "PHP",
-        },
-        {
-            id: "12",
-            title: "MySql",
-        },
-    ];
-
-    const Item = ({ title }) => {
-        return (
-            <View style={styles.item}>
-                <Text>{title}</Text>
+            <View style={styles.container}>
+                <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20 }}>Postar Conteudo</Text>
             </View>
-        );
-    };
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(DATA);
-    const [error, setError] = useState(null);
-    const [searchValue, setSearchValue] = useState("");
-    
-    const renderItem = ({ item }) => <Item title={item.title} />;
-    const Search = (props) => {
-        arrayholder = DATA;
-        searchFunction = (text) => {
-            const updatedData = arrayholder.filter((item) => {
-                const item_data = `${item.title.toUpperCase()})`;
-                const text_data = text.toUpperCase();
-                return item_data.indexOf(text_data) > -1;
-            });
-            setData(updatedData);
-            setSearchValue(text);
-        };
+
+
+        </View>
+
+    );
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+        paddingLeft: 30,
+        paddingRight: 30,
+        paddingBottom: 30,
+    },
+    body: {
+        flex: 1,
+        marginTop: -86
+
+    },
+    Input: {
+        flex: 1,
+        height: 40,
+        backgroundColor: "#eee",
+        borderRadius: 4,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: "#eee"
+    },
+    Button: {
+        height: 40,
+        width: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#1c6cce",
+        borderRadius: 4,
+        alignSelf: 'flex-end',
+        position: 'absolute',
+        top:1,
+        zIndex: 10,
+        right: 22,
+        backgroundColor: '#8A4AF5',
+    },
+    FlatList: {
+        flex: 1,
+        marginTop: 55
+    },
+    Texto: {
+        fontSize: 14,
+        color: "#333",
+        fontWeight: "bold",
+        marginTop: 4,
+        textAlign: "center"
+    },
+    ContainerView: {
+        marginBottom: 15,
+        padding: 15,
+        borderRadius: 4,
+        backgroundColor: "#eee",
+
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        borderWidth: 1,
+        borderColor: "#eee"
     }
-         
-            return (
-                <View style={styles.container} >
-                    <Icon
-                        containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
-                        name="arrow-back"
-                        type="material"
-                        size={40}
-                        color='#B088F7'
-                        onPress={() => {
-                            navigation.navigate('Menu Professor');
-                        }}
-                    ></Icon>
-                    <View style={styles.container}>
-                        <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20, marginLeft: 30 }}>Postar Conteudo</Text>
-                    </View>
-
-                    <SearchBar
-                    
-                        placeholder="Search Here..."
-                        lightTheme
-                        round
-                        value={searchValue}
-                        onChangeText={(text) => setSearchValue(text)}
-                        autoCorrect={false}
-                    />
-                    <FlatList
-                    style={styles.title}
-                        data={data}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id}
-                    />
-
-                </View>
-
-            );
-        }
-    
-    
-    
-
-    const styles = StyleSheet.create({
-        title: {
-            textAlign: 'center',
-            marginBottom: 10,
-            fontWeight: 'bold',
-            fontSize: 19,
-            padding: 15,
-            width: 377,
-        },
-        container: {
-            flex: 1,
-            backgroundColor: '#fffFFF',
-        },
-    });
-
+});

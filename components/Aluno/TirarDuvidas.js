@@ -22,13 +22,12 @@ export default function TirarDuvida(){
                     size={40}
                     color='#B088F7'
                     onPress={()=>{
-                        navigation.navigate('Menu Aluno');
+                        navigation.navigate('Menu do Aluno');
                     }}
                 ></Icon>
 
-                <Text style={{color:'#2A3A4E', fontWeight:'bold', fontSize:30, marginBottom:15, marginTop:20,}}>Portal Do Aluno</Text>
+                <Text style={{color:'#2A3A4E', fontWeight:'bold', fontSize:30, marginBottom:15, marginTop:20,}}>Forum de Duvidas</Text>
 
-                <Text style={styles.title}>Forum De Duvidas</Text>
 
                
        </ScrollView>

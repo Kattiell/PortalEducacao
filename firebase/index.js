@@ -1,6 +1,6 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc } = require('firebase/firestore');
-const { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} = require('firebase/auth');
+const { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPhoneNumber, RecaptchaVerifier} = require('firebase/auth');
 
 
 var serviceAccount = {
@@ -19,9 +19,11 @@ const auth = getAuth(app);
 const db = getFirestore();
 
 module.exports = {
-    auth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    db,
-    collection,
+  auth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  db,
+  collection,
+  signInWithPhoneNumber,
+  RecaptchaVerifier
 }

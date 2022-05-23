@@ -18,6 +18,8 @@ export default function CadastroProfessor() {
     const [currentNome, setCurrentNome] = useState('');
     const [currentEmail, setCurrentEmail] = useState('');
     const [currentTelefone, setCurrentTelefone] = useState('');
+    const [listEscolas, setListEscolas] = useState('-');
+    const [currentValueEscola, setCurrentValueEscola] = useState('Selecione uma escola:')
     const [currentEndereco, setCurrentEndereco] = useState('');//Criar validação de campo vazio 
     const [currentFormacao, setCurrentFormacao] = useState('');
     const [currentNascimento, setCurrentNascimento] = useState('');
@@ -40,11 +42,19 @@ export default function CadastroProfessor() {
                     setSelectedEnsino(route.params.selectedValue)
                     break;
 
+                case 'escola':
+                    setCurrentValueEscola(route.params.selectedValue)
+                    break;
+                    
                default:
                    break;
            }
         }
     });
+
+    useEffect(()=>{
+        listEscola();
+    },[]);
 
 
     // Informe da cadastro bem sucedido
@@ -78,6 +88,15 @@ export default function CadastroProfessor() {
             ],
         );
     }
+
+    const listEscola = async () => {
+        var baseUrl = "http://"+ipv4.ip+":3000/escola";
+        axios.get(baseUrl).then((response)=>{
+            setListEscolas(response.data);
+        });
+        return listEscolas;
+    }
+
     const postProfessorData = async () => {
 
         // Envia requisição POST
@@ -91,6 +110,7 @@ export default function CadastroProfessor() {
             disciplinaatrabalhar: selectedDisciplina,
             ensinotrabalhado: selectedEnsino,
             email: currentEmail,
+            escola: currentValueEscola
         })
             .then(function (response) {
                 showAlert();
@@ -236,6 +256,17 @@ export default function CadastroProfessor() {
                 boxWidth={Dimensions.get('screen').width*0.9}
                 boxHeight={200}
             >
+            </Select>
+
+            <Text style={styles.inputTextName}>Escola:</Text>
+            <Select
+                currentValue={currentValueEscola}
+                items={listEscolas == null ? listEscolas(): listEscolas}
+                return={'Cadastrar Professor'}
+                boxWidth={Dimensions.get('screen').width*0.9}
+                boxHeight={350}
+                label={'escola'}
+                >
             </Select>
 
             <TouchableOpacity style={styles.botao} title="Show alert" onPress={postProfessorData}>

@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { render } from "react-dom";
-
+import Select from "./Select";
 
 const SelectionScreen = (props)=>{
 
@@ -41,7 +41,11 @@ const SelectionScreen = (props)=>{
                 {Listed}
                 </ScrollView>
 
+                
+
+
             </DialogBox>
+
         </View>
     );
 

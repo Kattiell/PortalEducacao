@@ -4,20 +4,46 @@ import { Icon } from 'react-native-elements';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Select from "../layout-components/Select/Select";
 import { useEffect, useState } from "react";
-import ipv4 from 'PortalEducacaoBack/ipv4.json'; 
+import ipv4 from 'PortalEducacaoBack/ipv4.json';
+import React from "react";
 
 
 
-export default function CadastrarTurma(props){
+export default function CadastrarTurma(props) {
 
+    useEffect(() => {
 
-    useEffect(()=>{
-        if(route.params?.selectedValue){
-            setCurrentValueEnsino(route.params.selectedValue);
+        if (route.params?.selectedValue && route.params?.label) {
+            switch (route.params.label) {
+                case 'ensino':
+                    setCurrentValueEnsino(route.params.selectedValue);
+                    break;
+
+                case 'escola':
+                    setCurrentValueEscola(route.params.selectedValue)
+                    break;
+
+                default:
+                    break;
+            }
         }
+
     });
 
-    const showAlert = () => 
+    useEffect(() => {
+        listEscola();
+    }, []);
+
+    const listEscola = async () => {
+        var baseUrl = "http://" + ipv4.ip + ":3000/escola";
+        await axios.get(baseUrl).then((response) => {
+            setListEscolas(response.data);
+        });
+        return listEscolas;
+    }
+
+
+    const showAlert = () =>
         Alert.alert(
             "Sucesso!",
             "Turma Cadastrada com Sucesso",
@@ -29,7 +55,7 @@ export default function CadastrarTurma(props){
             ],
         );
     const showAlertErro = () =>
-        Alert.alert(    
+        Alert.alert(
             "Ocorreu um Erro!",
             "Erro com os Dados",
             [
@@ -43,14 +69,16 @@ export default function CadastrarTurma(props){
     const postTurmaData = async () => {
         // Envia requisição POST
         await axios.post(baseUrl, {
-            turmas:turmaInfo
+            numeroTurma: currentNome,
+            ensino: currentValueEnsino,
+            horarios: horariosInfo,
+            escola: currentValueEscola,
         })
             .then(function (response) {
                 showAlert();
                 setCurrentValueEnsino('Escolha uma opção: ')
                 setCurrentNome(''),
-
-                console.log(response.data);
+                    console.log(response.data);
             })
             .catch(function (error) {
                 showAlertErro()
@@ -60,33 +88,33 @@ export default function CadastrarTurma(props){
     }
 
 
-    const baseUrl = "http://"+ipv4.ip+":3000/turmas"; 
+    const baseUrl = "http://" + ipv4.ip + ":3000/turmas";
     const [currentNome, setCurrentNome] = useState('');
     const [currentValueEnsino, setCurrentValueEnsino] = useState("Escolha uma opção: ");
+    const [listEscolas, setListEscolas] = useState('-');
+    const [currentValueEscola, setCurrentValueEscola] = useState('Selecione uma escola:')
     const navigation = useNavigation();
     const route = useRoute();
-    let turmaInfo = {
-        numeroTurma: currentNome,
-        ensino: currentValueEnsino,
-        horarios:{
-            segunda: ['','','','',''],
-            terca: ['','','','',''],
-            quarta: ['','','','',''],
-            quinta: ['','','','',''],
-            sexta: ['','','','',''],
-        }
+    let horariosInfo = {
+        segunda: ['', '', '', '', ''],
+        terca: ['', '', '', '', ''],
+        quarta: ['', '', '', '', ''],
+        quinta: ['', '', '', '', ''],
+        sexta: ['', '', '', '', ''],
     };
 
-    return(
+
+
+    return (
         <View>
-             <Icon
+            <Icon
                 containerStyle={{ alignSelf: 'flex-start', marginLeft: 30 }}
                 name="arrow-back"
                 type="material"
                 size={40}
                 color='#B088F7'
                 onPress={() => {
-                    navigation.navigate('Menu Administrador');
+                    navigation.goBack();
                 }}
             ></Icon>
 
@@ -108,11 +136,23 @@ export default function CadastrarTurma(props){
                 currentValue={currentValueEnsino}
                 items={['Ensino Fundamental', 'Ensino Médio',]}
                 return={'Cadastrar Turma'}
-                boxWidth={Dimensions.get('screen').width*0.9}
+                boxWidth={Dimensions.get('screen').width * 0.9}
                 boxHeight={200}
+                label={'ensino'}
             >
             </Select>
-        
+
+            <Text style={styles.inputTextName}>Escola:</Text>
+            <Select
+                currentValue={currentValueEscola}
+                items={listEscolas == null ? listEscolas() : listEscolas}
+                return={'Cadastrar Turma'}
+                boxWidth={Dimensions.get('screen').width * 0.9}
+                boxHeight={350}
+                label={'escola'}
+            >
+            </Select>
+
 
             <TouchableOpacity style={styles.botao} title="Show alert" onPress={postTurmaData}>
                 <Text style={styles.textoBotao}> Cadastrar Turma</Text>
