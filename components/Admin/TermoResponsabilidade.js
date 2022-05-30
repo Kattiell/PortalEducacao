@@ -16,11 +16,21 @@ export default function TermoResponsabilidade() {
         }
     });
 
+    useEffect(() => {
+
+    }, [agree]);
+
+
+    const [agree, setAgree ] = useState(false);
     const [nomeAluno, setNomeAluno] = useState();
     const [nomeResponsavel, setNomeResponsavel] = useState();
     const [cpfResponsavel, setCpfResponsavel] = useState();
     const navigation = useNavigation();
     const route = useRoute();
+
+    function handleSelect() {
+        agree ? setAgree(false) : setAgree(true)
+    }
 
 
     return <View style={styles.container}>
@@ -42,48 +52,34 @@ export default function TermoResponsabilidade() {
             </Text>
 
             <View style={styles.context}>
-                <SelectedBox />
+                <TouchableOpacity style={styles.boxSelect} onPress={()=>handleSelect()}>
+                    {
+                        agree ?
+                            <Icon
+                                containerStyle={{ alignSelf: 'flex-start', marginLeft: 0, flexDirection: 'row' }}
+                                name="check"
+                                type="material"
+                                size={25}
+                                color='#B088F7'
+                            >
+                            </Icon>
+                            : () => { }
+                    }
+
+                </TouchableOpacity>
                 <Text style={styles.textAgree}>Estou de acordo com as informações acima e desejo prosseguir.</Text>
-            </View>
+           </View>
+            
+           {
+                agree && <Text onPress={() => { navigation.navigate('Cadastrar Aluno', { agree: true }) }} style={styles.textoBotao}>Finalizar Cadastro</Text>
+           }
+                    
 
         </View>
     </View>
 
 }
 
-const SelectedBox = () => {
-
-    const [agree, setAgree] = useState(false);
-
-    useEffect(() => {
-
-    }, [agree]);
-
-    function handleSelect() {
-        agree ? setAgree(false) : setAgree(true)
-    }
-
-    return <TouchableOpacity style={styles.boxSelect} onPress={() => handleSelect()}>
-
-        {
-            agree ?
-                <Icon
-                    containerStyle={{ alignSelf: 'flex-start', marginLeft: 0, flexDirection: 'row' }}
-                    name="check"
-                    type="material"
-                    size={25}
-                    color='#B088F7'
-                >
-                </Icon>
-                : () => { }
-        }
-
-        {
-            agree ? <Text onPress={() => { navigation.navigate('Cadastrar Aluno', { agree: true }) }} style={styles.textoBotao}>Finalizar Cadastro</Text> : () => { }
-        }
-
-    </TouchableOpacity>
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -103,7 +99,9 @@ const styles = StyleSheet.create({
     modal: {
         backgroundColor: 'white',
         width: 380,
-        height: 600,
+        height: 550,
+        alignItems:'center',
+        justifyContent:'flex-start',
     },
     mainText: {
         paddingLeft: 14,
@@ -139,38 +137,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     context: {
-        marginTop: 20,
         flexDirection: 'row',
         padding: 2,
-        paddingRight: 50,
+        paddingRight: 10,
     },
     textoBotao: {
-        position: 'absolute',
-        left: '260%',
-        top: '250%',
+        position:'relative',
+        bottom:5,
         fontWeight: '900',
         color: "#ffffff",
-        fontSize: 22,
+        fontSize: 20,
         backgroundColor: '#B38DF7',
-        width: 220,
-        height: 45,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        marginBottom: 14,
+        width: 200,
+        height: 40,
         borderRadius: 6,
-        padding: 5,
-        paddingLeft: 20,
+        marginTop:20,
+        textAlign:'center',
+        textAlignVertical:'center',
     }
 });
 
-/*
-        
-        
-        
-        
-        
-
-
-*/

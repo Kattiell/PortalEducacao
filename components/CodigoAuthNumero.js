@@ -1,19 +1,23 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput} from "react-native";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import DialogBox from "./layout-components/DialogBox";
 import React, { useState } from 'react';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
-export default function AuthCodigoScreen(){
-    
+
+
+export default function AuthCodigoScreen() {
+
     const navigation = useNavigation();
     const [currentCodigo, setCurrentCodigo] = useState(''); //Criar validação de campo vazio 
-    
+
+
+
     return (
         <View
             style={styles.container}>
-            
-             <DialogBox width={415} height={330} >
+
+            <DialogBox width={415} height={330} >
                 <Text style={styles.inputTextName}>Informe o Codigo enviado via SMS</Text>
-                
+
                 <TextInput
                     value={currentCodigo}
                     onChangeText={(value) => {
@@ -21,13 +25,14 @@ export default function AuthCodigoScreen(){
                     }}
                     style={styles.input}
                     placeholder="Digite o codigo enviado para você:"
-                />                            
+                />
                 <TouchableOpacity style={styles.botao2}>
-                    <Text style={styles.botaoText} onPress={() => {navigation.navigate('AdminScreen');
-                }}>Salvar</Text>
+                    <Text style={styles.botaoText} onPress={() => {
+                        navigation.navigate('AdminScreen');
+                    }}>Salvar</Text>
                 </TouchableOpacity>
-            </DialogBox> 
-            
+            </DialogBox>
+
         </View>
     )
 }
@@ -49,14 +54,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    botao2:{
+    botao2: {
         width: 100,
         height: 36,
         backgroundColor: '#B38DF7',
         marginBottom: 0,
         marginLeft: 423,
         borderRadius: 5,
-        marginLeft: 10,       
+        marginLeft: 10,
         marginRight: 30,
         top: -6,
         left: 0,

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput,  KeyboardAvoidingView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native";
 import DialogBox from "../layout-components/DialogBox";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
@@ -31,12 +31,14 @@ const CadastrarMaterial = (props) => {
     const [SelectedTurma, setSelectedTurma] = useState('Selecione a Turma');
     const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
     const [currentNomeDesc, setCurrentNomeDesc] = useState('');
+
+  
     return (
         <View
             style={styles.container}>
-            
 
-  
+
+
             <DialogBox width={415} height={530} >
                 <Text style={styles.inputTextName}>Nomeie o Material e de sua Descrição</Text>
                 <TextInput
@@ -73,7 +75,7 @@ const CadastrarMaterial = (props) => {
                     boxHeight={400}
                 >
                 </Select>
-                <TouchableOpacity style={styles.botao} >
+                <TouchableOpacity style={styles.botao} onPress={() => { Upload() }}>
                     <Text style={styles.botaoText}>Importar Arquivo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botao2} >
@@ -81,7 +83,7 @@ const CadastrarMaterial = (props) => {
                 </TouchableOpacity>
 
             </DialogBox>
-          
+
         </View>
     )
 }
@@ -103,14 +105,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    botao2:{
+    botao2: {
         width: 100,
         height: 36,
         backgroundColor: '#B38DF7',
         marginBottom: 0,
         marginLeft: 423,
         borderRadius: 5,
-        marginLeft: 10,       
+        marginLeft: 10,
         marginRight: 30,
         top: -6,
         left: 0,

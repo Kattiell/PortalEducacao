@@ -6,42 +6,14 @@ import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/
 import 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 
-// import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from './../firebase/index';
+
 
 export default function PhoneScreen() {
 
     const navigation = useNavigation();
     const [currentTelefone, setCurrentTelefone] = useState('');
 
-    // const [telefoneState, setTelefoneState] = useState('');
-    // const [PhoneNumberState, setPhoneNumberState] = getPhoneNumberFromUserInput();
 
-    // const phoneNumber = getPhoneNumberFromUserInput();
-    // const appVerifier = window.recaptchaVerifier;
-
-    // const auth = getAuth();
-
-    // async function AuthNumber() {
-    //     await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-    //         .then((confirmationResult) => {
-    //             // user in with confirmationResult.confirm(code).
-    //             window.confirmationResult = confirmationResult;
-    //             // ...
-    //         }).catch((error) => {
-    //             // Error; SMS not sent
-    //             // ...
-    //         });
-    // }
-    // function getPhoneNumberFromUserInput() {
-
-    //     var padroes = '/^\+[0-9\s\-\(\)]+$/';
-    //     var phoneNumber = getPhoneNumberFromUserInput();
-    //     return phoneNumber.search(padroes) !== -1;
-    // }
-
-    // function valueTelefone(Telefone) {
-    //     setTelefoneState(valueTelefone)
-    // }
 
     return (
         <View style={styles.container}>
@@ -60,7 +32,7 @@ export default function PhoneScreen() {
             <TextInput
                 value={currentTelefone}
                 onChangeText={(value) => {
-                   setCurrentTelefone(value);
+                    setCurrentTelefone(value);
                 }}
                 style={styles.input}
                 keyboardType="phone-pad"
@@ -70,7 +42,7 @@ export default function PhoneScreen() {
 
             <TouchableOpacity style={styles.botao}
                 onPress={() => {
-                    //AuthNumber()
+                    //AutenticaSMS()
                     navigation.navigate('AuthCodigoScreen')
                 }}>
                 <Text style={styles.textoBotao}> Enviar Solicitação</Text>

@@ -152,7 +152,8 @@ export default function LoginProf(props) {
         style={styles.botao}
         // Onpress() temporário para teste
         onPress={() =>{
-            login();
+            //login();
+            navigation.navigate('profscreen')
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>

@@ -3,11 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Select from '../layout-components/Select/Select';
-import { Dimensions } from 'react-native';
+import Atividade from '../layout-components/Atividade';
 
 export default function CriarAtividade() {
     const Drawer = createDrawerNavigator();
@@ -33,8 +31,7 @@ export default function CriarAtividade() {
             <View style={styles.container}>
                 <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20 }}>Criar Atividade</Text>
             </View>
-
-           
+            <Atividade nomeAtividade="ablublubleh"/>
 
         </View>
 
@@ -44,7 +41,6 @@ export default function CriarAtividade() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         paddingLeft: 30,
