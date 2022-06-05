@@ -107,8 +107,8 @@ export default function Login(props) {
         style={styles.botao}
          //Onpress() temporário para teste
         onPress={() =>{
-         login()       
-         //navigation.navigate('AdminScreen')
+         //login()       
+         navigation.navigate('AdminScreen')
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>

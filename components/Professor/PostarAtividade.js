@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput,  KeyboardAvoidingView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native";
 import DialogBox from "../layout-components/DialogBox";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
@@ -6,7 +6,10 @@ import Select from "../layout-components/Select/Select";
 import SelectionScreen from "../layout-components/Select/SelectionScreen";
 import React, { useState, useEffect } from 'react';
 
-export default function PostarAtividade(props){
+// import { getStorage, ref, uploadString, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import {v4} from "uuid";
+
+export default function PostarAtividade(props) {
 
     useEffect(() => {
         if (route.params?.selectedValue && route.params?.label) {
@@ -32,11 +35,22 @@ export default function PostarAtividade(props){
     const [SelectedTurma, setSelectedTurma] = useState('Selecione a Turma');
     const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
     const [currentNomeDesc, setCurrentNomeDesc] = useState('');
+
+    //testando
+    // const [uploadFiles, setuploadFiles] = useState(null);
+    // const upload = () => {
+
+    //     if (uploadFiles == null) return;
+    //     const docRef = ref(storage, `docs/${uploadFiles.name + v4()}`);
+    //     uploadBytes(docRef, uploadFiles).then(()=>{})
+    //  };
+
+
     return (
         <View
             style={styles.container}>
-            
-             <DialogBox width={415} height={530} >
+
+            <DialogBox width={415} height={530} >
                 <Text style={styles.inputTextName}>Nomeie a Atividade e de sua Descrição</Text>
                 <TextInput
                     value={currentNome}
@@ -54,7 +68,7 @@ export default function PostarAtividade(props){
                     style={styles.input}
                     placeholder="Digite a descrição Atividade:"
                 />
-                
+
                 <Select
                     label={'Turma'}
                     currentValue={SelectedTurma}
@@ -64,14 +78,18 @@ export default function PostarAtividade(props){
                     boxHeight={400}
                 >
                 </Select>
-                <TouchableOpacity style={styles.botao} >
+                <TouchableOpacity style={styles.botao}
+                    // onPress={() => {
+                    //     upload()
+                    // }}
+                    >
                     <Text style={styles.botaoText}>Importar Arquivo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botao2}>
                     <Text style={styles.botaoText}>Salvar</Text>
                 </TouchableOpacity>
-            </DialogBox> 
-            
+            </DialogBox>
+
         </View>
     )
 }
@@ -93,14 +111,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    botao2:{
+    botao2: {
         width: 100,
         height: 36,
         backgroundColor: '#B38DF7',
         marginBottom: 0,
         marginLeft: 423,
         borderRadius: 5,
-        marginLeft: 10,       
+        marginLeft: 10,
         marginRight: 30,
         top: -6,
         left: 0,

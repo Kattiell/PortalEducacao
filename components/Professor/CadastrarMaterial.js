@@ -61,7 +61,7 @@ const CadastrarMaterial = (props) => {
                     label={'Disciplina'}
                     currentValue={selectedDisciplina}
                     items={['Artes', 'Biologia', 'Educação Física', 'Geografia', 'História', 'Inglês', 'Língua Portuguesa', 'Matemática', 'Química', 'Física', 'Ciências']}
-                    return={'Cadastrar Material'}
+                    return={'Disciplina'}
                     boxWidth={Dimensions.get('screen').width * 0.5}
                     boxHeight={400}
                 >
@@ -70,7 +70,7 @@ const CadastrarMaterial = (props) => {
                     label={'Turma'}
                     currentValue={SelectedTurma}
                     items={['101', '201', '301']}
-                    return={'Cadastrar Material'}
+                    return={'Turma'}
                     boxWidth={Dimensions.get('screen').width * 0.9}
                     boxHeight={400}
                 >

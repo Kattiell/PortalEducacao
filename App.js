@@ -33,8 +33,8 @@ import CadastrarMaterial from './components/Professor/CadastrarMaterial';
 import PostarAtividade from './components/Professor/PostarAtividade';
 import Text from 'react-native';
 import TermoResponsabilidade from './components/Admin/TermoResponsabilidade';
-import AuthNumero from './components/AuthNumero';
-import AuthCodigoScreen from './components/CodigoAuthNumero';
+import AuthNumero from '././components/Autenticação/AuthNumero'
+import AuthCodigoScreen from '././components/Autenticação/CodigoAuthNumero'
 //logs
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput } from "react-native";
-import DialogBox from "./layout-components/DialogBox";
+import DialogBox from "../layout-components/DialogBox";
 import React, { useState } from 'react';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 
