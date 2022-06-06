@@ -5,11 +5,13 @@ import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/
 import Select from "../layout-components/Select/Select";
 import SelectionScreen from "../layout-components/Select/SelectionScreen";
 import React, { useState, useEffect } from 'react';
+import storage from '@react-native-firebase/storage';
+import { utils } from '@react-native-firebase/app';
 
-// import { getStorage, ref, uploadString, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import {v4} from "uuid";
+
 
 export default function PostarAtividade(props) {
+
 
     useEffect(() => {
         if (route.params?.selectedValue && route.params?.label) {
@@ -36,14 +38,6 @@ export default function PostarAtividade(props) {
     const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
     const [currentNomeDesc, setCurrentNomeDesc] = useState('');
 
-    //testando
-    // const [uploadFiles, setuploadFiles] = useState(null);
-    // const upload = () => {
-
-    //     if (uploadFiles == null) return;
-    //     const docRef = ref(storage, `docs/${uploadFiles.name + v4()}`);
-    //     uploadBytes(docRef, uploadFiles).then(()=>{})
-    //  };
 
 
     return (
@@ -79,9 +73,9 @@ export default function PostarAtividade(props) {
                 >
                 </Select>
                 <TouchableOpacity style={styles.botao}
-                    // onPress={() => {
-                    //     upload()
-                    // }}
+                    onPress={() => {
+                        PickAndUpload()
+                    }}
                     >
                     <Text style={styles.botaoText}>Importar Arquivo</Text>
                 </TouchableOpacity>

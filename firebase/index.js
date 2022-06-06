@@ -19,6 +19,7 @@ const auth = getAuth(app);
 const db = getFirestore();
 
 module.exports = {
+  app,
   auth,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,

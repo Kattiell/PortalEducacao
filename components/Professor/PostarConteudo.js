@@ -6,6 +6,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { WebView } from "react-native-webview";
 
 
 export default function PostarConteudo() {
@@ -33,6 +34,9 @@ export default function PostarConteudo() {
                 <Text style={{ color: '#2A3A4E', fontWeight: 'bold', fontSize: 30, marginBottom: 15, marginTop: 20 }}>Postar Conteudo</Text>
             </View>
 
+            <WebView
+                source={{html: '<iframe width="100%" height="150%" src="https://firebasestorage.googleapis.com/v0/b/portaeducacao.appspot.com/o/Atividades%2Fjavascript-the-definitive-guide-master-the-worlds-most-used-programming-language-9781491951989-1491951982_compress.pdf?alt=media&token=f9577fb7-16f3-4eee-9d7e-a2d22eec75b0"></iframe>}}'}}
+            />
 
         </View>
 

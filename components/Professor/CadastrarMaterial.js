@@ -1,9 +1,14 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native";
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native";
 import DialogBox from "../layout-components/DialogBox";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
 import Select from "../layout-components/Select/Select";
 import React, { useState, useEffect } from 'react';
+import * as DocumentPicker from 'expo-document-picker';
+import { app } from "../../firebase";
+import axios from "axios";
+import ipv4 from 'PortalEducacaoBack/ipv4.json';
+import { ref, getDownloadURL, uploadBytesResumable, getStorage } from "firebase/storage";
 
 const CadastrarMaterial = (props) => {
 
@@ -30,13 +35,42 @@ const CadastrarMaterial = (props) => {
     const [selectedDisciplina, setSelectedDisciplina] = useState('Selecione a disciplina');
     const [SelectedTurma, setSelectedTurma] = useState('Selecione a Turma');
     const [currentNome, setCurrentNome] = useState(''); //Criar validação de campo vazio 
-    const [currentNomeDesc, setCurrentNomeDesc] = useState('');
+    const [currentNomeDesc, setCurrentNomeDesc] = useState({});
+    const [numeroTurma, setNumeroTurma] = useState('');
 
+    const baseUrl = "http://"+ipv4.ip+":3000/file"; 
+    const [fileName, setFileName] = useState(undefined);
+    const [blobFile, setBlobFile] = useState('');
+
+    const storage = getStorage();
+    const _pickDocument = async () => {
+
+            let result = await DocumentPicker.getDocumentAsync({});
+            const r = await fetch(result.uri);
+            const b = await r.blob();
+            setFileName(result.name)
+            setBlobFile(b);
+
+            if (!blobFile) return;
+                const sotrageRef = ref(storage, `Materiais de estudo/${numeroTurma}/${fileName}`); //LINE A
+                const uploadTask = uploadBytesResumable(sotrageRef, blobFile); //LINE B
+                uploadTask.on(
+                    "state_changed", null ,
+                    (error) => console.log(error),
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => { //LINE C
+                            console.log("File available at", downloadURL);
+                            //isUploadCompleted(true)
+                            return downloadURL
+                });
+            }
+        );
+    }
+    
   
     return (
         <View
             style={styles.container}>
-
 
 
             <DialogBox width={415} height={530} >
@@ -61,7 +95,7 @@ const CadastrarMaterial = (props) => {
                     label={'Disciplina'}
                     currentValue={selectedDisciplina}
                     items={['Artes', 'Biologia', 'Educação Física', 'Geografia', 'História', 'Inglês', 'Língua Portuguesa', 'Matemática', 'Química', 'Física', 'Ciências']}
-                    return={'Disciplina'}
+                    return={''}
                     boxWidth={Dimensions.get('screen').width * 0.5}
                     boxHeight={400}
                 >
@@ -75,13 +109,17 @@ const CadastrarMaterial = (props) => {
                     boxHeight={400}
                 >
                 </Select>
-                <TouchableOpacity style={styles.botao} onPress={() => { Upload() }}>
+
+                <TouchableOpacity style={styles.botao} onPress={_pickDocument}>
                     <Text style={styles.botaoText}>Importar Arquivo</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.botao2} >
                     <Text style={styles.botaoText}>Salvar</Text>
                 </TouchableOpacity>
 
+              
+                    
             </DialogBox>
 
         </View>
