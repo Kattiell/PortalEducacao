@@ -137,9 +137,7 @@ const CadastrarMaterial = (props) => {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
+        onRequestClose={() => {}}
       >
         <View style={styles.centeredView}>
           <Image

@@ -21,7 +21,10 @@ import { signInWithEmailAndPassword, auth } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ipv4 from "PortalEducacaoBack/ipv4.json";
 import axios from "axios";
-LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
+import { Modal } from "react-native";
+LogBox.ignoreLogs([
+  "Warning: Async Storage has been extracted from react-native core",
+]);
 
 export default function LoginAluno(props) {
   const [id, setId] = useState("");
@@ -30,6 +33,9 @@ export default function LoginAluno(props) {
   const navigation = useNavigation();
   const [emailState, setemailState] = useState("");
   const [senhaState, setsenhaState] = useState("");
+  const [code, setCode] = useState("none");
+  const [codeDigitado,setCodeDigitado] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const baseUrl = "http://" + ipv4.ip + ":3000/role";
 
   //Visibilidade da senha
@@ -41,6 +47,19 @@ export default function LoginAluno(props) {
       setTypeIcon("visibility");
       changeSecure();
     }
+  }
+
+
+  function verifyCode(){
+  
+      if(codeDigitado == code){
+        setModalVisible(false);
+        navigation.navigate("AlunoScreen")
+      }
+      else{
+        alert("Código incorreto, verifique o código digitado.")
+
+      }
   }
 
   async function login() {
@@ -63,20 +82,21 @@ export default function LoginAluno(props) {
       const willNavigate = await verifyUser();
       if (willNavigate) {
         try {
-          await axios.post("http://" + ipv4.ip + ":3000/code", {
+          await axios
+            .post("http://" + ipv4.ip + ":3000/code", {
               authid: id,
-          }).then((response)=>{
-            codeAuth = response.data.code;
-          }).catch((err)=>{
-            alert(err);
-          })
-        } catch(error){
+            })
+            .then((response) => {
+              codeAuth = response.data.code;
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        } catch (error) {
           alert(error);
         }
-        navigation.navigate("AuthCodigoScreen", {
-           code: codeAuth,
-           nextScreen: "Menu do Aluno"
-        });
+        setCode(codeAuth);
+        setModalVisible(true);
       }
     }
   }
@@ -130,6 +150,29 @@ export default function LoginAluno(props) {
 
   return (
     <View style={styles.container}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.internalCard}>
+            <Text style={styles.codeInfo}>
+              Enviamos um código de verificação via SMS para seu telefone
+              cadastrado, por favor digite o código no campo abaixo para prosseguir com o
+              login.
+            </Text>
+            <View style={styles.inputCode}>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite o código recebido"
+                onChangeText={(value) => {
+                  setCodeDigitado(value);
+                }}
+              ></TextInput>
+            </View>
+            <TouchableOpacity style={styles.button} onPress={()=>verifyCode()}>
+              <Text style={styles.botaoText}>Verificar Código</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <Image source={props.logo} style={styles.logo} />
 
       <Text style={styles.title}>Faça o seu Login como Aluno</Text>
@@ -153,7 +196,6 @@ export default function LoginAluno(props) {
           onChangeText={(value) => {
             valueSenha(value);
           }}
-          // onChangeText={(value) => {valueSenha(value)}}
         />
         <View style={{ position: "absolute", top: 35, right: 15 }}>
           <Icon
@@ -168,8 +210,7 @@ export default function LoginAluno(props) {
 
       <TouchableOpacity
         style={styles.botao}
-        // Onpress() temporário para teste
-        onPress={async () => {
+        onPress={() => {
           login();
         }}
       >
@@ -217,11 +258,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: "#E9E9E9",
   },
+  inputCode:{
+    top:25,
+  },
   inputTextName: {
     width: 300,
     color: "#914FF7",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  centeredView: {
+    flex: 1,
+    backgroundColor: "rgba(62,61,50,0.6)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  internalCard: {
+    width: Dimensions.get("screen").width * 0.92,
+    height: 280,
+    backgroundColor: "rgba(255,255,255,1)",
+    borderRadius: 8,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  codeInfo: {
+    marginTop: 30,
+    textAlign: "center",
+    color: "#9455F4",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   title: {
     textAlign: "center",
@@ -240,11 +307,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  button:{
+    top:20,
+    width: Dimensions.get("screen").width * 0.30,
+    height:35,
+    backgroundColor: "#B38DF7",
+    marginTop: 10,
+    borderRadius: 4,
+    alignItems: "center",
+    justifyContent: "center",
+    color:"#fff"
+  },
   botaoText: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
   },
+  
   forgetPass: {
     fontSize: 16,
     fontWeight: "bold",
