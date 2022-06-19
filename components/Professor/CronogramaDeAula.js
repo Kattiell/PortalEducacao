@@ -15,35 +15,44 @@ import GradeHorarios from '../layout-components/GradeHorarios';
 
 export default function CronogramaDeAula(){
 
-    useEffect(async ()=>{
-        // Nome do professor setado para demonstração enquanto
-        // não temos login de professor
-        setThisProfessor('Lucas Vinícius');
-        const h = await GetHProf();
-        setHorarioProf(h);
-    },[]);
-
-    const GetHProf = async () => {
-        let h;
-        await axios.post('http://'+ipv4.ip+':3000/professor-horario',{
-            nome: thisProfessor,
-        }).then(function(response){
-            return response.data
-        }).then(function(response){
-            h = response;
-            console.log(h);
-        }).catch(function (error) {
-            console.log(error)
-            console.log(error.response.data)
-        });
-        return h;
-    }
-    
-
-    const [horarioProf, setHorarioProf] = useState('');
+    const [horarioProf, setHorarioProf] = useState({
+        "segunda": ['','','','',''],
+        "terca": ['','','','',''],
+        "quarta":['','','','',''],
+        "quinta":['','','','',''],
+        "sexta":['','','','',''],
+    });
     const [thisProfessor, setThisProfessor] = useState('vazio');
     const Drawer = createDrawerNavigator();
     const navigation = useNavigation();
+    const [loading,setLoading] = useState(false);
+
+    useEffect(async ()=>{
+        if(!loading){
+            setThisProfessor('Lucas Vinícius ');
+            const h = await GetHProf();
+            console.log(h)
+            setHorarioProf(h);
+        }
+    });
+
+    useEffect(()=>{});
+
+    const GetHProf = async () => {
+        let i;
+        try {
+            i = await axios.post('http://'+ipv4.ip+':3000/professor-horario',{
+                nome: thisProfessor,
+            });
+        } catch (error) {
+            alert(error)
+        }
+        setLoading(true)
+        return i.data;
+    }
+    
+
+    
     return(
     <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -63,10 +72,11 @@ export default function CronogramaDeAula(){
                 <Text style={styles.title}>Cronograma de Aula</Text>
                 
                 <GradeHorarios horarios={horarioProf}/>
+               
             
-              
+
                 
-                
+            
                
        </ScrollView>
     </SafeAreaView>

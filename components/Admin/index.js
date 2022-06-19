@@ -53,7 +53,6 @@ export default function AdminScreen({props}){
 
                 <View  style={styles.containerFunctions}>
                     <BoxFunction onPress="Cadastrar Aluno" nameIcon="contacts" functionBox="Cadastro Alunos"/>
-                    <BoxFunction onPress={()=>{}} nameIcon="alarm" functionBox="Horário"/>
                 </View>
        </ScrollView>
     </SafeAreaView>

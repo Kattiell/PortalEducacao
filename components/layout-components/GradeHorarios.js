@@ -29,7 +29,7 @@ const HorarioColumn = ()=>{
 const DayColumns = (props)=>{
     let horarios = props.horarios;
     let columns = [];
-    
+    //console.log(horarios)
     for (const dia in horarios) {
        columns.push(
            <View style={styles.column} key={dia.toString() + '_'}>

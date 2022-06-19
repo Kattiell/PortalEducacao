@@ -1,6 +1,6 @@
 import React, {Component,useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, LogBox } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Esqueceu_Senha from './Esqueceu_Senha';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -54,6 +54,7 @@ export default function LoginProf(props) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        alert("Credenciais incorretas, tente novamente.\n"+errorMessage);
       });  
 
       if(signIn){
@@ -94,6 +95,7 @@ export default function LoginProf(props) {
         console.log(err);
     })
     
+    
     if(role == 'prof') return true
     else return false;
     
@@ -103,8 +105,10 @@ export default function LoginProf(props) {
     if(secureState == true) setSecureState(false)
     else setSecureState(true);
   }
-  YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
   
+  //YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+  LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
+
   return (
     
     <View style={styles.container}>
@@ -152,12 +156,11 @@ export default function LoginProf(props) {
         style={styles.botao}
         // Onpress() temporário para teste
         onPress={() =>{
-            //login();
-            navigation.navigate('profscreen')
+            login();
         }}>
         <Text style={styles.botaoText}>Login</Text>
       </TouchableOpacity>
-   
+     
       <View style={{flexDirection:'row', justifyContent:'flex-start', width:300, paddingTop:30}}>
         <Text style={styles.forgetPass} onPress={() => navigation.navigate('Esqueceu_senha')}>Esqueceu sua senha? </Text>
 

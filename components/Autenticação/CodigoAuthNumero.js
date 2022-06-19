@@ -2,21 +2,29 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, TextInput } from 
 import DialogBox from "../layout-components/DialogBox";
 import React, { useState } from 'react';
 import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
-
+import { useEffect } from "react";
 
 export default function AuthCodigoScreen() {
 
     const navigation = useNavigation();
     const [currentCodigo, setCurrentCodigo] = useState(''); //Criar validação de campo vazio 
+    const route = useRoute();
+    const [code,setCode] = useState('');
 
+    useEffect();
 
+    useEffect(()=>{
+        if(route.params?.code){
+            setCode(route.params.code);
+        }
+    });
 
     return (
         <View
             style={styles.container}>
 
             <DialogBox width={415} height={330} >
-                <Text style={styles.inputTextName}>Informe o Codigo enviado via SMS</Text>
+                <Text style={styles.inputTextName}>Informe o Codigo enviado para o seu numero cadastrado via SMS</Text>
 
                 <TextInput
                     value={currentCodigo}

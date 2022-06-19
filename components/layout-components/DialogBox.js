@@ -28,8 +28,8 @@ const DialogBox = (props)=>{
     const navigation = useNavigation();
 
     return(
-        <View style={styles.container} width={props.width} height={props.height}>
-            <TouchableOpacity onPress={()=>{navigation.goBack()}}>
+        <View style={props.style ? props.style : styles.container} width={props.width} height={props.height}>
+            <TouchableOpacity onPress={()=>{navigation.goBack()}} style={styles.close}>
                 <Icon
                     iconStyle={styles.backButton}       
                     name='close'
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     container:{ 
         backgroundColor:'#FFFFFF',
         flexDirection:'column',
-        justifyContent:'space-between',
+        justifyContent:'center',
     },
     backButton:{
         alignSelf:'flex-start',
@@ -83,8 +83,7 @@ const styles = StyleSheet.create({
     buttonText:{
         color:'#FFFFFF',
         fontSize:20,
-        
-    }
+    },
 });
 
 export default DialogBox;

@@ -33,13 +33,9 @@ import CadastrarMaterial from './components/Professor/CadastrarMaterial';
 import PostarAtividade from './components/Professor/PostarAtividade';
 import Text from 'react-native';
 import TermoResponsabilidade from './components/Admin/TermoResponsabilidade';
-import AuthNumero from '././components/Autenticação/AuthNumero'
 import AuthCodigoScreen from '././components/Autenticação/CodigoAuthNumero'
 //logs
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
-YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
-
+LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -71,8 +67,7 @@ export default function App() {
         {/* Rota para tela inicial do administrador (Com Drawer)*/}
         <Stack.Screen name="AdminScreen" component={DrawerRoutes} />
 
-        {/* Rota para tela do sms (Com Drawer)*/}
-        <Stack.Screen name="PhoneScreen" component={AuthNumero} />
+
 
         {/* Rota para tela inicial do Aluno (Com Drawer)*/}
 

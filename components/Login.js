@@ -1,6 +1,6 @@
 import React, {Component,useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, LogBox } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Esqueceu_Senha from './Esqueceu_Senha';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -9,8 +9,7 @@ import { signInWithEmailAndPassword, auth } from '../firebase';
 import {YellowBox} from 'react-native';
 import Select from './layout-components/Select/Select';
 
-
-YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 
 export default function Login(props) {
 
@@ -27,7 +26,7 @@ export default function Login(props) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigation.navigate('PhoneScreen');
+        navigation.navigate('AuthCodigoScreen');
         // ...
       })
       .catch((error) => {

@@ -2,7 +2,6 @@ const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc } = require('firebase/firestore');
 const { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPhoneNumber, RecaptchaVerifier} = require('firebase/auth');
 
-
 var serviceAccount = {
     apiKey: "AIzaSyDyD0yoRg1BsRZj56TuoJJlcgXsJdM5K8U",
     authDomain: "portaeducacao.firebaseapp.com",

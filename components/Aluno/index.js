@@ -33,7 +33,7 @@ export default function AlunoScreen(){
                 <View style={styles.containerFunctions}>
                     <BoxFunction onPress="Acessar Atividades" nameIcon="book" functionBox="Atividades"/>
                     <BoxFunction onPress="Visualizar Material" nameIcon="folder" functionBox="Conteudos da Aula"/>
-                    <BoxFunction onPress="Horarios De Aula" nameIcon="alarm" functionBox="Horário"/>
+                    <BoxFunction onPress="Horarios De Aula" nameIcon="alarm" functionBox="Horários"/>
                     <BoxFunction onPress="Forum De Duvidas" nameIcon="contacts" functionBox="Fórum de Duvidas"/>
                 </View>          
        </ScrollView>
