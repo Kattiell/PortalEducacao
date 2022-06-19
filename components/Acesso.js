@@ -1,12 +1,12 @@
 import React, { Component, useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Dimensions, KeyboardAvoidingView, LogBox } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Esqueceu_Senha from './Esqueceu_Senha';
 import RedirectButton from './layout-components/RedirectButton';
 import * as Animatable from 'react-native-animatable';
 
-
+LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release.']);
 
 export default function Acesso(props) {
 

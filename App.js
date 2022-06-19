@@ -33,7 +33,6 @@ import CadastrarMaterial from './components/Professor/CadastrarMaterial';
 import PostarAtividade from './components/Professor/PostarAtividade';
 import Text from 'react-native';
 import TermoResponsabilidade from './components/Admin/TermoResponsabilidade';
-import AuthCodigoScreen from '././components/Autenticação/CodigoAuthNumero'
 //logs
 LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 
@@ -106,8 +105,7 @@ export default function App() {
          <Stack.Screen name="PostarAtividade" component={PostarAtividade} options={{ presentation: 'transparentModal' }} />
          {/* */}
          <Stack.Screen name="TermoDeDados" component={TermoResponsabilidade} options={{ presentation: 'transparentModal' }} />
-           {/* */}
-         <Stack.Screen name="AuthCodigoScreen" component={AuthCodigoScreen} options={{ presentation: 'transparentModal' }} />
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

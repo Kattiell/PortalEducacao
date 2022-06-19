@@ -34,9 +34,10 @@ export default function LoginAluno(props) {
   const [emailState, setemailState] = useState("");
   const [senhaState, setsenhaState] = useState("");
   const [code, setCode] = useState("none");
-  const [codeDigitado,setCodeDigitado] = useState("");
+  const [codeDigitado, setCodeDigitado] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const baseUrl = "http://" + ipv4.ip + ":3000/role";
+  var usuario;
 
   //Visibilidade da senha
   function changeIcon(iconName) {
@@ -49,17 +50,13 @@ export default function LoginAluno(props) {
     }
   }
 
-
-  function verifyCode(){
-  
-      if(codeDigitado == code){
-        setModalVisible(false);
-        navigation.navigate("AlunoScreen")
-      }
-      else{
-        alert("Código incorreto, verifique o código digitado.")
-
-      }
+  function verifyCode() {
+    if (codeDigitado == code) {
+      setModalVisible(false);
+      navigation.navigate("AlunoScreen");
+    } else {
+      alert("Código incorreto, verifique o código digitado.");
+    }
   }
 
   async function login() {
@@ -67,7 +64,7 @@ export default function LoginAluno(props) {
     let signIn = false;
     if ((emailState, senhaState) !== "") {
       await signInWithEmailAndPassword(auth, emailState, senhaState)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
           signIn = true;
         })
@@ -76,27 +73,33 @@ export default function LoginAluno(props) {
           const errorMessage = error.message;
           alert(errorMessage);
         });
-    }
 
-    if (signIn) {
-      const willNavigate = await verifyUser();
-      if (willNavigate) {
+      if (signIn) {
+        let willNavigate = false;
         try {
-          await axios
-            .post("http://" + ipv4.ip + ":3000/code", {
-              authid: id,
-            })
-            .then((response) => {
-              codeAuth = response.data.code;
-            })
-            .catch((err) => {
-              alert(err);
-            });
+          willNavigate = await verifyUser();
         } catch (error) {
           alert(error);
+        } finally {
+          if (willNavigate) {
+            try {
+              await axios
+                .post("http://" + ipv4.ip + ":3000/code", {
+                  authid: usuario,
+                })
+                .then((response) => {
+                  codeAuth = response.data.code;
+                  setCode(codeAuth);
+                  setModalVisible(true);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            } catch (error) {
+              alert(error);
+            }
+          }
         }
-        setCode(codeAuth);
-        setModalVisible(true);
       }
     }
   }
@@ -116,7 +119,7 @@ export default function LoginAluno(props) {
   const verifyUser = async () => {
     const auth = getAuth();
     let role = "";
-    let usuario = await getId();
+    usuario = await getId();
     setId(usuario);
     console.log(usuario);
 
@@ -155,8 +158,8 @@ export default function LoginAluno(props) {
           <View style={styles.internalCard}>
             <Text style={styles.codeInfo}>
               Enviamos um código de verificação via SMS para seu telefone
-              cadastrado, por favor digite o código no campo abaixo para prosseguir com o
-              login.
+              cadastrado, por favor digite o código no campo abaixo para
+              prosseguir com o login.
             </Text>
             <View style={styles.inputCode}>
               <TextInput
@@ -167,7 +170,10 @@ export default function LoginAluno(props) {
                 }}
               ></TextInput>
             </View>
-            <TouchableOpacity style={styles.button} onPress={()=>verifyCode()}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => verifyCode()}
+            >
               <Text style={styles.botaoText}>Verificar Código</Text>
             </TouchableOpacity>
           </View>
@@ -258,8 +264,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: "#E9E9E9",
   },
-  inputCode:{
-    top:25,
+  inputCode: {
+    top: 25,
   },
   inputTextName: {
     width: 300,
@@ -307,23 +313,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  button:{
-    top:20,
-    width: Dimensions.get("screen").width * 0.30,
-    height:35,
+  button: {
+    top: 20,
+    width: Dimensions.get("screen").width * 0.3,
+    height: 35,
     backgroundColor: "#B38DF7",
     marginTop: 10,
     borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
-    color:"#fff"
+    color: "#fff",
   },
   botaoText: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
   },
-  
+
   forgetPass: {
     fontSize: 16,
     fontWeight: "bold",
